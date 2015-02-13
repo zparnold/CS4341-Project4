@@ -6,6 +6,7 @@ package main;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * @author Zach Arnold and Sean MacEachern
@@ -22,6 +23,14 @@ public class Main {
 				new FileReader(args[0]));
 		String line = "";
 		Integer section = 0;
+		ArrayList<String> variables = new ArrayList<String>();
+		ArrayList<String> bagVals = new ArrayList<String>();
+		ArrayList<String> fittingLimits = new ArrayList<String>();
+		ArrayList<String> unaryInclusive = new ArrayList<String>();
+		ArrayList<String> unaryExclusive = new ArrayList<String>();
+		ArrayList<String> binaryEquals = new ArrayList<String>();
+		ArrayList<String> binaryNotEquals = new ArrayList<String>();
+		ArrayList<String> mutuallyExclusive = new ArrayList<String>();
 		
 		//read the file
 		while ((line = streamReader.readLine()) != null) {
@@ -32,29 +41,39 @@ public class Main {
 				switch(section){
 				//This is variables
 				case 0:
+					variables.add(line);
+					//TODO Decide what to do here
 					break;
 				//This is bag values
 				case 1:
+					bagVals.add(line);
 					break;
 				//This is fitting limits
 				case 2:
+					fittingLimits.add(line);
 					break;
 				//This is unary inclusive
 				case 3:
+					unaryInclusive.add(line);
 					break;
 				//This is unary exclusive vars
 				case 4:
+					unaryExclusive.add(line);
 					break;
 				//binary equal vars
 				case 5:
+					binaryEquals.add(line);
 					break;
 				//This is binary not equals
 				case 6:
+					binaryNotEquals.add(line);
 					break;
 				//This is mutually excusive
 				case 7:
+					mutuallyExclusive.add(line);
 					break;
 				}
+				section++;
 			}
 		}
 
