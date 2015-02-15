@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class Main {
 
-	/** 
+	/**
 	 * @param args
 	 * @throws IOException
 	 */
@@ -31,52 +31,56 @@ public class Main {
 		ArrayList<String> binaryEquals = new ArrayList<String>();
 		ArrayList<String> binaryNotEquals = new ArrayList<String>();
 		ArrayList<String> mutuallyExclusive = new ArrayList<String>();
-		
-		//read the file
+
+		// read the file
 		while ((line = streamReader.readLine()) != null) {
-			//denotes new section
-			if(line == "#####"){
-				//depending on the section number, the data
-				//has different relevance 
-				switch(section){
-				//This is variables
-				case 0:
-					variables.add(line);
-					//TODO Decide what to do here
-					break;
-				//This is bag values
+
+			// denotes new section
+			if (line.contains("#####")) {
+				// depending on the section number, the data
+				// has different relevance
+				section++;
+			} else {
+				
+				switch (section) {
+				// This is variables
 				case 1:
+					
+					variables.add(line);
+					// TODO Decide what to do here
+					break;
+				// This is bag values
+				case 2:
 					bagVals.add(line);
 					break;
-				//This is fitting limits
-				case 2:
+				// This is fitting limits
+				case 3:
 					fittingLimits.add(line);
 					break;
-				//This is unary inclusive
-				case 3:
+				// This is unary inclusive
+				case 4:
 					unaryInclusive.add(line);
 					break;
-				//This is unary exclusive vars
-				case 4:
+				// This is unary exclusive vars
+				case 5:
 					unaryExclusive.add(line);
 					break;
-				//binary equal vars
-				case 5:
+				// binary equal vars
+				case 6:
 					binaryEquals.add(line);
 					break;
-				//This is binary not equals
-				case 6:
+				// This is binary not equals
+				case 7:
 					binaryNotEquals.add(line);
 					break;
-				//This is mutually excusive
-				case 7:
+				// This is mutually exclusive
+				case 8:
 					mutuallyExclusive.add(line);
 					break;
 				}
-				section++;
 			}
 		}
-
+		streamReader.close();
 	}
 
 }
