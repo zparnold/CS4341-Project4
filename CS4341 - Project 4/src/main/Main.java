@@ -23,9 +23,9 @@ public class Main {
 				new FileReader(args[0]));
 		String line = "";
 		Integer section = 0;
-		ArrayList<Item> variables = new ArrayList<Item>();
-		ArrayList<ItemBag> bagVals = new ArrayList<ItemBag>();
-		ArrayList<String> fittingLimits = new ArrayList<String>();
+		ArrayList<Item> items = new ArrayList<Item>();
+		ArrayList<ItemBag> bags = new ArrayList<ItemBag>();
+		
 		ArrayList<String> unaryInclusive = new ArrayList<String>();
 		ArrayList<String> unaryExclusive = new ArrayList<String>();
 		ArrayList<String> binaryEquals = new ArrayList<String>();
@@ -41,24 +41,29 @@ public class Main {
 				// has different relevance
 				section++;
 			} else {
-
+				String[] s = line.split(" ");
 				switch (section) {
-				// This is variables
+				// This is items
 				case 1:
-					String[] s = line.split(" ");
 					Item i = new Item(s[0], Integer.parseInt(s[1]));
-					variables.add(i);
+					items.add(i);
 					// TODO Decide what to do here
 					break;
-				// This is bag values
+					
+				// This is bags
 				case 2:
-					String[] s1 = line.split(" ");
-					ItemBag ib = new ItemBag(s1[0], Integer.parseInt(s1[1]));
-					bagVals.add(ib);
+					ItemBag ib = new ItemBag(s[0], Integer.parseInt(s[1]));
+					bags.add(ib);
 					break;
+					
 				// This is fitting limits
 				case 3:
-					fittingLimits.add(line);
+					//fittingLimits.add(line);
+					for(ItemBag bag : bags){
+						bag.setLowerFit(Integer.parseInt(s[0]));
+						bag.setUpperFit(Integer.parseInt(s[1]));
+					}
+					
 					break;
 				// This is unary inclusive
 				case 4:
@@ -85,14 +90,15 @@ public class Main {
 		}
 		
 		//Now create the world, instantiate the solver and solve it!
-		ConstraintHolder world = new ConstraintHolder(variables, bagVals,
+		/*
+		ConstraintHolder world = new ConstraintHolder(items, bags,
 				fittingLimits, unaryInclusive, unaryExclusive, binaryEquals,
 				binaryNotEquals, mutuallyExclusive);
 		
 		CSPSolver solver = new CSPSolver(world);
 		
 		solver.backtrackSearch();
-		
+		*/
 		streamReader.close();
 
 	}

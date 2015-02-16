@@ -5,32 +5,66 @@ import java.util.ArrayList;
 public class ItemBag {
 	String id;
 	int capacity = 0;
+	int lowerFit = 0, upperFit = 0;
 	ArrayList<Item> items; 
 	
-	public int getCapacity() {
-		return capacity;
-	}
-
-	public ArrayList<Item> getItems() {
-		return items;
-	}
-	
+	/**
+	 * Creates a Bag for holding items given an ID and a capacity
+	 * @param id
+	 * @param capacity
+	 */
 	ItemBag(String id, int capacity){
 		this.id = id;
 		this.capacity = capacity;
 		items = new ArrayList<Item>();
 	}
 	
+	/**
+	 * Returns the Wasted Capacity measurement
+	 * @return Wasted Capacity
+	 */
+	int getWastedCapacity(){
+		return capacity - getTotalWeight();
+	}
+	
+	/**
+	 * Helper function for getWastedCapacity
+	 * @return The total weight of all items in the bag.
+	 */
 	int getTotalWeight(){
 		int totalWeight = 0;
+		if(items.size() == 0){
+			return totalWeight;
+		}
+		
 		for(Item i : items){
 			totalWeight += i.weight;
 		}
 		return totalWeight;
 	}
 	
-	int getWastedCapacity(){
-		return capacity - getTotalWeight();
+	/**
+	 * Getter for capacity
+	 * @return capacity
+	 */
+	public int getCapacity() {
+		return capacity;
+	}
+	
+	/**
+	 * Getter for list of items
+	 * @return items
+	 */
+	public ArrayList<Item> getItems() {
+		return items;
+	}
+
+	public void setLowerFit(int lowerFit) {
+		this.lowerFit = lowerFit;
+	}
+
+	public void setUpperFit(int upperFit) {
+		this.upperFit = upperFit;
 	}
 
 	@Override
