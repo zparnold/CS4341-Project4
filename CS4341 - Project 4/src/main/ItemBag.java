@@ -3,7 +3,7 @@ package main;
 import java.util.ArrayList;
 
 public class ItemBag {
-	char id;
+	String id;
 	int capacity = 0;
 	ArrayList<Item> items; 
 	
@@ -15,7 +15,7 @@ public class ItemBag {
 		return items;
 	}
 	
-	ItemBag(char id, int capacity){
+	ItemBag(String id, int capacity){
 		this.id = id;
 		this.capacity = capacity;
 		items = new ArrayList<Item>();

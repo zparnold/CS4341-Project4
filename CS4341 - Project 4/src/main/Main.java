@@ -23,8 +23,8 @@ public class Main {
 				new FileReader(args[0]));
 		String line = "";
 		Integer section = 0;
-		ArrayList<String> variables = new ArrayList<String>();
-		ArrayList<String> bagVals = new ArrayList<String>();
+		ArrayList<Item> variables = new ArrayList<Item>();
+		ArrayList<ItemBag> bagVals = new ArrayList<ItemBag>();
 		ArrayList<String> fittingLimits = new ArrayList<String>();
 		ArrayList<String> unaryInclusive = new ArrayList<String>();
 		ArrayList<String> unaryExclusive = new ArrayList<String>();
@@ -45,13 +45,16 @@ public class Main {
 				switch (section) {
 				// This is variables
 				case 1:
-					
-					variables.add(line);
+					String[] s = line.split(" ");
+					Item i = new Item(s[0],Integer.parseInt(s[1]));
+					variables.add(i);
 					// TODO Decide what to do here
 					break;
 				// This is bag values
 				case 2:
-					bagVals.add(line);
+					String[] s1 = line.split(" ");
+					ItemBag ib = new ItemBag(s1[0],Integer.parseInt(s1[1]));
+					bagVals.add(ib);
 					break;
 				// This is fitting limits
 				case 3:
