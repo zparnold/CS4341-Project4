@@ -54,7 +54,15 @@ public class ConstraintHolder {
 	 * Gets the next unsatisfied variable looking for minimum remaining value
 	 * @return the Item that is next to be analyzed
 	 */
-	public Item getNextUnsatVar() {
+	public ArrayList<ItemBag> getNextUnsatVars() {
+		
+		 //If we haven't assigned anything yet, then we can do anything!
+		if (assignedVars.keySet() == null){
+			return this.getBagVals();
+		}
+		
+		//Otherwise, look at all of the variables and decide
+		
 		for (Item i:this.getVariables()){
 			
 		}
@@ -66,7 +74,7 @@ public class ConstraintHolder {
 	/**
 	 * @return the flag
 	 */
-	public boolean isFlag() {
+	public Boolean isFlag() {
 		return flag;
 	}
 
@@ -240,5 +248,18 @@ public class ConstraintHolder {
 	public void setAssignedVars(HashMap<ItemBag, ArrayList<Item>> assignedVars) {
 		this.assignedVars = assignedVars;
 	}
+
+
+	public boolean isComplete() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	public void addAssignment(ArrayList<ItemBag> var, ItemBag val) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

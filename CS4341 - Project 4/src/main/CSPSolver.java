@@ -3,6 +3,8 @@
  */
 package main;
 
+import java.util.ArrayList;
+
 /**
  * @author Zach
  *
@@ -27,17 +29,26 @@ public class CSPSolver {
 
 	}
 
-	private boolean backtrackRecursive(ConstraintHolder holder) {
-		// Update statistics
+	@SuppressWarnings("unchecked")
+	private <T> T backtrackRecursive(ConstraintHolder holder) {
+		// Update statistics (for later)
 		counter++;
 
-		Item var = holder.getNextUnsatVar();
-		
-		for (Item i:holder.getUnusedItems()){
-			
+		if (holder.isComplete()) {
+			return (T) holder;
 		}
 
-		return holder.isFlag();
+		ArrayList<ItemBag> var = holder.getNextUnsatVars();
+
+		// world.orderDomainValues();
+		for (ItemBag val : holder.getBagVals()) {
+
+			holder.addAssignment(var, val);
+			
+
+		}
+
+		return (T) holder.isFlag();
 	}
 
 }
