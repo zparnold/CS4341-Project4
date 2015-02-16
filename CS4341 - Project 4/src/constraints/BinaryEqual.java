@@ -6,22 +6,30 @@ import main.Item;
 import main.ItemBag;
 
 public class BinaryEqual implements Constraint {
-
+	
 	/**
-	 * 
+	 * This method is in here because the overridden method only works for
+	 * unary constraints...maybe we could switch the interface to Array
+	 * List of type Item and just check the first one for unary constraints?
 	 * @param bag
 	 * @param item1
 	 * @param item2
 	 * @return
 	 */
-	//This method is in here because the overridden method only works for
-	//unary constraints...maybe we could switch the interface to Array
-	//List of type Item and just check the first one for unary constraints?
-	public boolean isValid(ItemBag bag, Item item1, Item item2) {
-		ArrayList<Item> check = new ArrayList<Item>();
-		check.add(item1);
-		check.add(item2);
-		return (bag.getItems().containsAll(check));
+	ArrayList<ItemBag> bags = new ArrayList<ItemBag>();
+	ArrayList<Item> items = new ArrayList<Item>();
+	
+	BinaryEqual(ArrayList<ItemBag> bags, ArrayList<Item> items){
+		this.bags = bags;
+		this.items = items;
+	}
+
+	public boolean isValid(ArrayList<ItemBag> bags, ArrayList<Item> items){
+		for(ItemBag bag : bags){
+			if(bag.getItems().containsAll(items))
+				return true;
+		}
+		return false;
 	}
 
 	@Override

@@ -14,14 +14,25 @@ public class BinaryMutualExclusive implements Constraint {
 	 * @param item2
 	 * @return
 	 */
-	//This method is in here because the overridden method only works for
-		//unary constraints...maybe we could switch the interface to Array
-		//List of type Item and just check the first one for unary constraints?
-	public boolean isValid(ItemBag bag, Item item1, Item item2){
-		ArrayList<Item> check = new ArrayList<Item>();
-		check.add(item1);
-		check.add(item2);
-		return (bag.getItems().containsAll(check));
+	ArrayList<ItemBag> bags = new ArrayList<ItemBag>();
+	ArrayList<Item> items = new ArrayList<Item>();
+	
+	BinaryMutualExclusive(ArrayList<ItemBag> bags, ArrayList<Item> items){
+		this.bags = bags;
+		this.items = items;
+	}
+
+	/*
+	 * We always know that with Mutually Esclusive Contraints that there will be TWO bags
+	 * and TWO items. If A contains a, then B cannot contain b and vice versa.
+	 */
+	public boolean isValid(ArrayList<ItemBag> bags, ArrayList<Item> items){
+		if(bags.get(0).getItems().contains(items.get(0)) && bags.get(1).getItems().contains(items.get(1))
+				|| bags.get(1).getItems().contains(items.get(1)) && bags.get(0).getItems().contains(items.get(0))){
+			return false;
+		}
+		
+		return true;
 	}
 
 	@Override
