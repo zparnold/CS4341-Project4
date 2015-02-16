@@ -22,7 +22,7 @@ public class ConstraintHolder {
 	private ArrayList<String> binaryNotEquals = new ArrayList<String>();
 	private ArrayList<String> mutuallyExclusive = new ArrayList<String>();
 	
-	private HashMap<ItemBag,ArrayList<Item>> assignedVars = new HashMap<ItemBag,ArrayList<Item>>();
+	private ArrayList<Item> assignedVars = new ArrayList<Item>();
 	
 	public ConstraintHolder(ArrayList<Item> variables2, ArrayList<ItemBag> bagVals2, ArrayList<String> fittingLimits2, ArrayList<String> unaryInclusive2, ArrayList<String> unaryExclusive2, ArrayList<String> binaryEquals2, ArrayList<String> binaryNotEquals2, ArrayList<String> mutuallyExclusive2){
 		setVariables(variables2);
@@ -44,16 +44,17 @@ public class ConstraintHolder {
 		ArrayList<Item> unused = new ArrayList<Item>();
 		
 		for (Item i:this.getVariables()){
-			if(!this.assignedVars.entrySet().contains(i)){
+			if(!this.assignedVars.contains(i)){
 				unused.add(i);
 			}
 		}
 		return unused;
 	}
+	/*
 	/**
 	 * Gets the next unsatisfied variable looking for minimum remaining value
 	 * @return the Item that is next to be analyzed
-	 */
+	 
 	public ArrayList<ItemBag> getNextUnsatVars() {
 		
 		 //If we haven't assigned anything yet, then we can do anything!
@@ -68,7 +69,7 @@ public class ConstraintHolder {
 		}
 		return null;
 	}
-
+*/
 
 
 	/**
@@ -236,7 +237,7 @@ public class ConstraintHolder {
 	/**
 	 * @return the assignedVars
 	 */
-	public HashMap<ItemBag, ArrayList<Item>> getAssignedVars() {
+	public ArrayList<Item> getAssignedVars() {
 		return assignedVars;
 	}
 
@@ -245,20 +246,56 @@ public class ConstraintHolder {
 	/**
 	 * @param assignedVars the assignedVars to set
 	 */
-	public void setAssignedVars(HashMap<ItemBag, ArrayList<Item>> assignedVars) {
+	public void setAssignedVars(ArrayList<Item> assignedVars) {
 		this.assignedVars = assignedVars;
 	}
 
 
+	/**
+	 * Decides whether or not we've satisfied the constraints
+	 * @return boolean of whether or not there are any unused items
+	 */
 	public boolean isComplete() {
+		return (this.getUnusedItems().isEmpty());
+	}
+
+
+	public void addAssignment(Item var) {
+		if(!this.getAssignedVars().contains(var)){
+			assignedVars.add(var);
+			
+		}
+		
+	}
+
+
+	public boolean checkUIConstraint(Item var) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 
-	public void addAssignment(ArrayList<ItemBag> var, ItemBag val) {
+	public boolean checkUEConstraint(Item var) {
 		// TODO Auto-generated method stub
-		
+		return false;
+	}
+
+
+	public boolean checkBEContstraint(Item var) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	public boolean checkBNEConstraint(Item var) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	public boolean checkMEConstraint(Item var) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 

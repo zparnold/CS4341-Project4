@@ -35,16 +35,26 @@ public class CSPSolver {
 		counter++;
 
 		if (holder.isComplete()) {
-			return (T) holder;
+			return (T) holder.getAssignedVars();
 		}
 
-		ArrayList<ItemBag> var = holder.getNextUnsatVars();
+		Item var = holder.getUnusedItems().get(0);
 
 		// world.orderDomainValues();
 		for (ItemBag val : holder.getBagVals()) {
 
-			holder.addAssignment(var, val);
-			
+			// Logic
+			holder.addAssignment(var);
+			val.getItems().add(var);
+			holder.getVariables().remove(var);
+
+			if (holder.checkUIConstraint(var) && holder.checkUEConstraint(var)
+					&& holder.checkBEContstraint(var)
+					&& holder.checkBNEConstraint(var)
+					&& holder.checkMEConstraint(var)) {
+				
+				backtrackRecursive(holder);
+			}
 
 		}
 
