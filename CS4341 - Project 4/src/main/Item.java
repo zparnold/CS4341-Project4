@@ -7,6 +7,10 @@ public class Item {
 	public int getWeight() {
 		return weight;
 	}
+	
+	public String getID(){
+		return id;
+	}
 
 	Item(String id, int weight){
 		this.id = id;

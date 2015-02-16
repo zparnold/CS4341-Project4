@@ -41,19 +41,19 @@ public class Main {
 				// has different relevance
 				section++;
 			} else {
-				
+
 				switch (section) {
 				// This is variables
 				case 1:
 					String[] s = line.split(" ");
-					Item i = new Item(s[0],Integer.parseInt(s[1]));
+					Item i = new Item(s[0], Integer.parseInt(s[1]));
 					variables.add(i);
 					// TODO Decide what to do here
 					break;
 				// This is bag values
 				case 2:
 					String[] s1 = line.split(" ");
-					ItemBag ib = new ItemBag(s1[0],Integer.parseInt(s1[1]));
+					ItemBag ib = new ItemBag(s1[0], Integer.parseInt(s1[1]));
 					bagVals.add(ib);
 					break;
 				// This is fitting limits
@@ -83,9 +83,18 @@ public class Main {
 				}
 			}
 		}
+		
+		//Now create the world, instantiate the solver and solve it!
+		ConstraintHolder world = new ConstraintHolder(variables, bagVals,
+				fittingLimits, unaryInclusive, unaryExclusive, binaryEquals,
+				binaryNotEquals, mutuallyExclusive);
+		
+		CSPSolver solver = new CSPSolver(world);
+		
+		solver.backtrackSearch();
+		
 		streamReader.close();
-		
-		
+
 	}
 
 }

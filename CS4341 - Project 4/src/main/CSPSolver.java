@@ -8,28 +8,36 @@ package main;
  *
  */
 public class CSPSolver {
-	
+
 	private ConstraintHolder holder;
 	private int counter = 0;
 
-	public CSPSolver(ConstraintHolder holder){
+	public CSPSolver(ConstraintHolder holder) {
 		this.holder = holder;
 	}
-	
+
 	/**
-	 * Searches using the backtracking search algorithm for a solution
-	 * to the CSP (Used algorithm from Russel and Norvig)
+	 * Searches using the backtracking search algorithm for a solution to the
+	 * CSP (Used algorithm from Russel and Norvig)
+	 * 
 	 * @return boolean, whether or not the constraints are attainable
 	 */
-	public boolean backtrackSearch(){
-		//Update statistics
+	public boolean backtrackSearch() {
+		return backtrackRecursive(holder);
+
+	}
+
+	private boolean backtrackRecursive(ConstraintHolder holder) {
+		// Update statistics
 		counter++;
+
+		Item var = holder.getNextUnsatVar();
 		
-		Object var = holder.getNextUnsatVar();
-		
-		return holder.getFlag();
-		
-		
+		for (Item i:holder.getUnusedItems()){
+			
+		}
+
+		return holder.isFlag();
 	}
 
 }
