@@ -78,4 +78,20 @@ public class ItemBag {
 	}
 	
 	
+	@Override
+	public boolean equals(Object obj) {
+		ItemBag itemBagToCheck = (ItemBag) obj;
+		return this.id.equals(itemBagToCheck.id)
+				&& this.capacity == itemBagToCheck.capacity;
+	}
+
+	@Override
+	public String toString() {
+		return "(name =" + this.id + " weight= " + this.capacity + ")";
+	}
+
+	@Override
+	public int compareTo(Object arg0) {
+		return this.id.compareTo(((ItemBag) arg0).id);
+	}
 }
