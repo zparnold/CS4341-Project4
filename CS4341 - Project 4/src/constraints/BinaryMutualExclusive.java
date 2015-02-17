@@ -17,7 +17,7 @@ public class BinaryMutualExclusive implements Constraint {
 	ArrayList<ItemBag> bags = new ArrayList<ItemBag>();
 	ArrayList<Item> items = new ArrayList<Item>();
 	
-	BinaryMutualExclusive(ArrayList<ItemBag> bags, ArrayList<Item> items){
+	public BinaryMutualExclusive(ArrayList<ItemBag> bags, ArrayList<Item> items){
 		this.bags = bags;
 		this.items = items;
 	}

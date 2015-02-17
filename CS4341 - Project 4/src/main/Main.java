@@ -8,6 +8,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import constraints.BinaryEqual;
+import constraints.BinaryMutualExclusive;
+import constraints.BinaryNotEqual;
+import constraints.ConstraintManager;
+import constraints.UnaryExclusive;
+import constraints.UnaryInclusive;
+
 /**
  * @author Zach Arnold and Sean MacEachern
  *
@@ -25,13 +32,8 @@ public class Main {
 		Integer section = 0;
 		ArrayList<Item> items = new ArrayList<Item>();
 		ArrayList<ItemBag> bags = new ArrayList<ItemBag>();
-		
-		ArrayList<String> unaryInclusive = new ArrayList<String>();
-		ArrayList<String> unaryExclusive = new ArrayList<String>();
-		ArrayList<String> binaryEquals = new ArrayList<String>();
-		ArrayList<String> binaryNotEquals = new ArrayList<String>();
-		ArrayList<String> mutuallyExclusive = new ArrayList<String>();
 
+		ConstraintManager constraints = new ConstraintManager();
 		// read the file
 		while ((line = streamReader.readLine()) != null) {
 
@@ -49,56 +51,130 @@ public class Main {
 					items.add(i);
 					// TODO Decide what to do here
 					break;
-					
+
 				// This is bags
 				case 2:
 					ItemBag ib = new ItemBag(s[0], Integer.parseInt(s[1]));
 					bags.add(ib);
 					break;
-					
+
 				// This is fitting limits
 				case 3:
-					//fittingLimits.add(line);
-					for(ItemBag bag : bags){
+					// fittingLimits.add(line);
+					for (ItemBag bag : bags) {
 						bag.setLowerFit(Integer.parseInt(s[0]));
 						bag.setUpperFit(Integer.parseInt(s[1]));
 					}
-					
+
 					break;
 				// This is unary inclusive
 				case 4:
-					unaryInclusive.add(line);
+					Item addItem = new Item(null,0);
+					for (Item item : items) {
+						if (item.id == s[0])
+							addItem = item;
+					}
+
+					ArrayList<ItemBag> ibArray = new ArrayList<ItemBag>();
+					// Fetch the bags from the bag list
+					for (int i1 = 1; i1 < s.length; i1++) {
+						for (ItemBag bag : bags) {
+							if (bag.id == s[i1])
+								ibArray.add(bag);
+						}
+					}
+					UnaryInclusive uc = new UnaryInclusive(ibArray, addItem);
+
+					constraints.addConstraint(uc);
 					break;
 				// This is unary exclusive vars
 				case 5:
-					unaryExclusive.add(line);
+					// Get the item from the list
+					Item addUEItem = new Item(null, 0);
+					for (Item item : items) {
+						if (item.id == s[0])
+							addUEItem = item;
+					}
+
+					ArrayList<ItemBag> ibUEArray = new ArrayList<ItemBag>();
+					// Fetch the bags from the bag list
+					for (int i1 = 1; i1 < s.length; i1++) {
+						for (ItemBag bag : bags) {
+							if (bag.id == s[i1])
+								ibUEArray.add(bag);
+						}
+					}
+					// Make the constraint
+					UnaryExclusive ue = new UnaryExclusive(ibUEArray, addUEItem);
+
+					// Add it to the constraint manager
+					constraints.addConstraint(ue);
 					break;
 				// binary equal vars
 				case 6:
-					binaryEquals.add(line);
+					ArrayList<Item> beItems = new ArrayList<Item>();
+					ArrayList<ItemBag> beBags = bags;
+
+					// Loop over string array looking for bag matches
+					for (int i1 = 0; i1 < s.length; i1++) {
+						for (Item item : items) {
+							if (item.id == s[i1])
+								beItems.add(item);
+						}
+					}
+
+					BinaryEqual be = new BinaryEqual(beBags, beItems);
+					constraints.addConstraint(be);
 					break;
 				// This is binary not equals
 				case 7:
-					binaryNotEquals.add(line);
+					ArrayList<Item> bneItems = new ArrayList<Item>();
+					ArrayList<ItemBag> bneBags = bags;
+
+					// Loop over string array looking for bag matches
+					for (int i1 = 0; i1 < s.length; i1++) {
+						for (Item item : items) {
+							if (item.id == s[i1])
+								bneItems.add(item);
+						}
+					}
+
+					BinaryNotEqual bne = new BinaryNotEqual(bneBags, bneItems);
+					constraints.addConstraint(bne);
+
 					break;
 				// This is mutually exclusive
 				case 8:
-					mutuallyExclusive.add(line);
+
+					// For example, a line "A B x y" means x cannot be assigned
+					// to A if y is assigned to B, and vice versa.
+					
+					ArrayList<Item> meItems = new ArrayList<Item>();
+					ArrayList<ItemBag> meBags = new ArrayList<ItemBag>();
+					
+					for (Item item : items){
+						if (item.id == s[0] || item.id == s[1])
+							meItems.add(item);
+					}
+					
+					for (ItemBag itemBag : bags){
+						if (itemBag.id == s[2] || itemBag.id == s[3])
+							meBags.add(itemBag);
+					}
+
+					BinaryMutualExclusive me = new BinaryMutualExclusive(meBags, meItems);
+					constraints.addConstraint(me);
 					break;
 				}
 			}
 		}
-		
-		//Now create the world, instantiate the solver and solve it!
-		/*
-		ConstraintHolder world = new ConstraintHolder(items, bags,
-				fittingLimits, unaryInclusive, unaryExclusive, binaryEquals,
-				binaryNotEquals, mutuallyExclusive);
-		
-		CSPSolver solver = new CSPSolver(world);
-		
-		solver.backtrackSearch();
-		*/
+
+		// Now create the world, instantiate the solver and solve it!
+		  
+		  CSPSolver solver = new CSPSolver(items,bags,constraints);
+		  
+		  solver.backtrackSearch();
+		 
 		streamReader.close();
 
 	}

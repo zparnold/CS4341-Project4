@@ -62,33 +62,4 @@ public class State {
 		this.domain = newDomain;
 		this.parent = null;
 	}
-
-	public boolean checkUIConstraint() {
-		// TODO Auto-generated method stub
-		
-		for(ItemBag bag : this.bags){
-			
-		}
-		return false;
-	}
-
-	public boolean checkUEConstraint() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean checkBEContstraint() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean checkBNEConstraint() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean checkMEConstraint() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 }

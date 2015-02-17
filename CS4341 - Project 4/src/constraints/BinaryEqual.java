@@ -19,10 +19,13 @@ public class BinaryEqual implements Constraint {
 	ArrayList<ItemBag> bags = new ArrayList<ItemBag>();
 	ArrayList<Item> items = new ArrayList<Item>();
 	
-	BinaryEqual(ArrayList<ItemBag> bags, ArrayList<Item> items){
+	public BinaryEqual(ArrayList<ItemBag> bags, ArrayList<Item> items){
 		this.bags = bags;
 		this.items = items;
 	}
+	
+	//TODO fix this method
+	//This looks to see if the items are in every bag.
 	@Override
 	public boolean isValid(ArrayList<ItemBag> bags, ArrayList<Item> items){
 		for(ItemBag bag : bags){

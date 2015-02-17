@@ -16,10 +16,10 @@ public class BinaryNotEqual implements Constraint {
 	 * @param item2
 	 * @return
 	 */
-	ArrayList<ItemBag> bags = new ArrayList<ItemBag>();;
-	ArrayList<Item> items = new ArrayList<Item>();;
+	ArrayList<ItemBag> bags = new ArrayList<ItemBag>();
+	ArrayList<Item> items = new ArrayList<Item>();
 	
-	BinaryNotEqual(ArrayList<ItemBag> bags, ArrayList<Item> items){
+	public BinaryNotEqual(ArrayList<ItemBag> bags, ArrayList<Item> items){
 		this.bags = bags;
 		this.items = items;
 	}
