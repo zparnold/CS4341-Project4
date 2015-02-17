@@ -1,5 +1,7 @@
 package constraints;
 
+import java.util.ArrayList;
+
 import main.Item;
 import main.ItemBag;
 
@@ -17,5 +19,5 @@ public interface Constraint {
 	 * @param item
 	 * @return valid
 	 */
-	boolean isValid(ItemBag bag, Item item);
+	boolean isValid(ArrayList<ItemBag> bag, ArrayList<Item> items);
 }

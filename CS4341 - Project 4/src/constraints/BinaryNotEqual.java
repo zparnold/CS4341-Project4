@@ -23,19 +23,14 @@ public class BinaryNotEqual implements Constraint {
 		this.bags = bags;
 		this.items = items;
 	}
-
+	
+	@Override
 	public boolean isValid(ArrayList<ItemBag> bags, ArrayList<Item> items){
 		for(ItemBag bag : bags){
 			if(bag.getItems().containsAll(items))
 				return false;
 		}
 		return true;
-	}
-
-	@Override
-	public boolean isValid(ItemBag bag, Item item) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }

@@ -4,6 +4,7 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 /**
  * @author Zach
@@ -13,6 +14,7 @@ public class CSPSolver {
 
 	private ConstraintHolder holder;
 	private int counter = 0;
+	private Stack<State> stateStack;
 
 	public CSPSolver(ConstraintHolder holder) {
 		this.holder = holder;
@@ -24,41 +26,52 @@ public class CSPSolver {
 	 * 
 	 * @return boolean, whether or not the constraints are attainable
 	 */
-	public boolean backtrackSearch() {
-		return backtrackRecursive(holder);
+	public State backtrackSearch() {
+		return backtrackRecursive(new State(holder.getBagVals(),holder.getVariables()));
 
 	}
 
-	@SuppressWarnings("unchecked")
-	private <T> T backtrackRecursive(ConstraintHolder holder) {
+	
+	private State backtrackRecursive(State holder) {
 		// Update statistics (for later)
 		counter++;
+		this.stateStack.push(holder);
 
-		if (holder.isComplete()) {
-			return (T) holder.getAssignedVars();
+		if (holder.getDomain().isEmpty()) {
+			return holder;
 		}
 
-		Item var = holder.getUnusedItems().get(0);
+		Item var = this.getUnassignedVar(holder);
 
-		// world.orderDomainValues();
-		for (ItemBag val : holder.getBagVals()) {
-
-			// Logic
-			holder.addAssignment(var);
-			val.getItems().add(var);
-			holder.getVariables().remove(var);
-
-			if (holder.checkUIConstraint(var) && holder.checkUEConstraint(var)
-					&& holder.checkBEContstraint(var)
-					&& holder.checkBNEConstraint(var)
-					&& holder.checkMEConstraint(var)) {
+		
+		for (ItemBag bag : holder.getBags()) {
+			if ((bag.capacity - bag.getTotalWeight()) >= var.weight){
+				bag.items.add(var);
 				
-				backtrackRecursive(holder);
+				if (holder.checkUIConstraint() && holder.checkUEConstraint()
+						&& holder.checkBEContstraint()
+						&& holder.checkBNEConstraint()
+						&& holder.checkMEConstraint()) {
+					
+					backtrackRecursive(holder);
+				}
+				else{
+					stateStack.pop();
+					
+				}
 			}
 
 		}
 
-		return (T) holder.isFlag();
+		return holder;
+	}
+	
+	/**
+	 * Gets the next unassigned variable
+	 * @return the item
+	 */
+	private Item getUnassignedVar(State s){
+		return s.getDomain().get(0);
 	}
 
 }

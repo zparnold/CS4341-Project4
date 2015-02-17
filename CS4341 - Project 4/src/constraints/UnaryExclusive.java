@@ -21,9 +21,9 @@ public class UnaryExclusive implements Constraint {
 		this.item = i;
 	}
 	
-	public boolean isValid(ItemBag bag, Item i) {
+	public boolean isValid(ArrayList<ItemBag> bag, ArrayList<Item> i) {
 		// TODO Auto-generated method stub
-		if(this.item.getID() == i.getID() && this.bags.contains(i)){
+		if(this.item.getID() == i.get(0).getID() && this.bags.contains(i.get(0))){
 			return false;
 		}
 		return true;

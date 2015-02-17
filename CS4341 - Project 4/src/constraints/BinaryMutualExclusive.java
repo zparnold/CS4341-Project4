@@ -26,6 +26,7 @@ public class BinaryMutualExclusive implements Constraint {
 	 * We always know that with Mutually Esclusive Contraints that there will be TWO bags
 	 * and TWO items. If A contains a, then B cannot contain b and vice versa.
 	 */
+	@Override
 	public boolean isValid(ArrayList<ItemBag> bags, ArrayList<Item> items){
 		if(bags.get(0).getItems().contains(items.get(0)) && bags.get(1).getItems().contains(items.get(1))
 				|| bags.get(1).getItems().contains(items.get(1)) && bags.get(0).getItems().contains(items.get(0))){
@@ -35,10 +36,5 @@ public class BinaryMutualExclusive implements Constraint {
 		return true;
 	}
 
-	@Override
-	public boolean isValid(ItemBag bag, Item item) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 }
