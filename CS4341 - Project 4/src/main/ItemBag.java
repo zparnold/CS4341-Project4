@@ -85,12 +85,6 @@ public class ItemBag {
 				&& this.capacity == itemBagToCheck.capacity;
 	}
 
-	@Override
-	public String toString() {
-		return "(name =" + this.id + " weight= " + this.capacity + ")";
-	}
-
-	@Override
 	public int compareTo(Object arg0) {
 		return this.id.compareTo(((ItemBag) arg0).id);
 	}
