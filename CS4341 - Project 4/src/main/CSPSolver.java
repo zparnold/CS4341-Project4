@@ -17,7 +17,7 @@ public class CSPSolver {
 	private ArrayList<Item> items;
 	private ArrayList<ItemBag> bags;
 	private int counter = 0;
-	private Stack<State> stateStack;
+	private Stack<State> stateStack = new Stack<State>();
 	private ConstraintManager constraintManager;
 
 	public CSPSolver(ArrayList<Item> items, ArrayList<ItemBag> bags,
@@ -34,47 +34,51 @@ public class CSPSolver {
 	 * @return boolean, whether or not the constraints are attainable
 	 */
 	public State backtrackSearch() {
-		return backtrackRecursive(new State(bags,items));
+		return backtrackRecursive(new State(bags, items));
 
 	}
 
-	
 	private State backtrackRecursive(State holder) {
 		// Update statistics (for later)
 		counter++;
 		this.stateStack.push(holder);
 
 		if (holder.getDomain().isEmpty()) {
+			System.out.println("Domain Empty: "+holder.toString());
 			return holder;
 		}
 
 		Item var = this.getUnassignedVar(holder);
 
-		
 		for (ItemBag bag : holder.getBags()) {
-			if ((bag.capacity - bag.getTotalWeight()) >= var.weight){
+			if ((bag.capacity - bag.getTotalWeight()) >= var.weight) {
 				bag.items.add(var);
-				
+
 				if (constraintManager.isSatisfied(holder)) {
-					
+
 					backtrackRecursive(holder);
-				}
-				else{
-					stateStack.pop();
-					
+				} else {
+					if (stateStack.isEmpty()){
+						System.out.println("Stack Empty: "+holder.toString());
+						return holder;
+					}
+					else
+						stateStack.pop();
+
 				}
 			}
 
 		}
-
+		System.out.println("Unsatisfied Constraints:" + holder.toString());
 		return holder;
 	}
-	
+
 	/**
 	 * Gets the next unassigned variable
+	 * 
 	 * @return the item
 	 */
-	private Item getUnassignedVar(State s){
+	private Item getUnassignedVar(State s) {
 		return s.getDomain().get(0);
 	}
 
@@ -86,7 +90,8 @@ public class CSPSolver {
 	}
 
 	/**
-	 * @param items the items to set
+	 * @param items
+	 *            the items to set
 	 */
 	public void setItems(ArrayList<Item> items) {
 		this.items = items;
@@ -100,7 +105,8 @@ public class CSPSolver {
 	}
 
 	/**
-	 * @param bags the bags to set
+	 * @param bags
+	 *            the bags to set
 	 */
 	public void setBags(ArrayList<ItemBag> bags) {
 		this.bags = bags;
@@ -114,7 +120,8 @@ public class CSPSolver {
 	}
 
 	/**
-	 * @param counter the counter to set
+	 * @param counter
+	 *            the counter to set
 	 */
 	public void setCounter(int counter) {
 		this.counter = counter;
@@ -128,7 +135,8 @@ public class CSPSolver {
 	}
 
 	/**
-	 * @param stateStack the stateStack to set
+	 * @param stateStack
+	 *            the stateStack to set
 	 */
 	public void setStateStack(Stack<State> stateStack) {
 		this.stateStack = stateStack;
@@ -142,7 +150,8 @@ public class CSPSolver {
 	}
 
 	/**
-	 * @param constraintManager the constraintManager to set
+	 * @param constraintManager
+	 *            the constraintManager to set
 	 */
 	public void setConstraintManager(ConstraintManager constraintManager) {
 		this.constraintManager = constraintManager;

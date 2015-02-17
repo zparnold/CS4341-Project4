@@ -23,7 +23,7 @@ public class Item {
 		return id;
 	}
 
-	Item(String id, int weight){
+	public Item(String id, int weight){
 		this.id = id;
 		this.weight = weight;
 		this.isAssigned = false;

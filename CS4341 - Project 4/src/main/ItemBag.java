@@ -13,7 +13,7 @@ public class ItemBag {
 	 * @param id
 	 * @param capacity
 	 */
-	ItemBag(String id, int capacity){
+	public ItemBag(String id, int capacity){
 		this.id = id;
 		this.capacity = capacity;
 		items = new ArrayList<Item>();
@@ -57,6 +57,10 @@ public class ItemBag {
 	 */
 	public ArrayList<Item> getItems() {
 		return items;
+	}
+	
+	public void addItem(Item i){
+		this.items.add(i);
 	}
 
 	public void setLowerFit(int lowerFit) {

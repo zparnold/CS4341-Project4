@@ -62,4 +62,15 @@ public class State {
 		this.domain = newDomain;
 		this.parent = null;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "State [bags=" + bags + ", domain=" + domain + ", parent="
+				+ parent + "]";
+	}
+	
+
 }

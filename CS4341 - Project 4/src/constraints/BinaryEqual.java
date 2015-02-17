@@ -23,9 +23,7 @@ public class BinaryEqual implements Constraint {
 		this.bags = bags;
 		this.items = items;
 	}
-	
-	//TODO fix this method
-	//This looks to see if the items are in every bag.
+
 	@Override
 	public boolean isValid(ArrayList<ItemBag> bags, ArrayList<Item> items){
 		for(ItemBag bag : bags){

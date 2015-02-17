@@ -13,7 +13,7 @@ public class UnaryInclusive implements Constraint {
 	 * Need to check if an item IS in a bag
 	 */
 	
-	Item item;
+	public Item item;
 	ArrayList<ItemBag> bags = new ArrayList<ItemBag>();
 	
 	public UnaryInclusive(ArrayList<ItemBag> bags, Item i){
@@ -22,8 +22,13 @@ public class UnaryInclusive implements Constraint {
 	}
 	
 	public boolean isValid(ArrayList<ItemBag> bag, ArrayList<Item> i) {
-		// TODO Auto-generated method stub
-		if(this.item.getID() == i.get(0).getID() && this.bags.contains(i.get(0))){
+	
+		//TODO WTF!!
+		for (ItemBag itemBag : bag){
+			if(false){}
+		}
+		if(this.item.getID().equals(i.get(0).getID()) && this.bags.contains(i.get(0))){
+			
 			return true;
 		}
 		return false;
