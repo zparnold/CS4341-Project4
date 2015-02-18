@@ -55,40 +55,42 @@ public class CSPSolver {
 			System.out.println("-----------------------------------");
 			return holder;
 		}
-		
-		Item var = new Item(null,0);
-		
-		//We've assigned all the variables
-		if((var = getUnassignedVar(holder)) == null){
+
+		Item var = new Item(null, 0);
+
+		// We've assigned all the variables
+		//Item var = getUnassignedVar(holder);
+
+		if ((var = getUnassignedVar(holder)) == null) {
 			return holder;
-		}
-		else{
+		} else {
 
-		while (!stateStack.isEmpty()) {
-			State currentState = stateStack.pop();
+			while (!stateStack.isEmpty()) {
+				State currentState = stateStack.pop();
 
-			boolean successfulTry = false;
+				boolean successfulTry = false;
 
-			for (ItemBag bag : currentState.getBags()) {
-				bag.addItem(var);
+				for (ItemBag bag : currentState.getBags()) {
+					bag.addItem(var);
 
-				if (constraintManager.tryPut(currentState, bag, var)) {
-					successfulTry = true;
-					successes++;
-				} else {
-					fails++;
-				}
+					if (constraintManager.tryPut(currentState, bag, var)) {
+						successfulTry = true;
+						successes++;
+					} else {
+						fails++;
+					}
 
-				if (successfulTry) {
-					stateStack.push(currentState);
-					backtrackRecursive(currentState);
+					if (successfulTry) {
+						stateStack.push(currentState);
+						backtrackRecursive(currentState);
+					}
 				}
 			}
+			System.out.println("----- Unsatisfied Constraints -----");
+			printSolution(holder);
+			return holder;
 		}
-		System.out.println("----- Unsatisfied Constraints -----");
-		printSolution(holder);
-		return holder;
-		}
+
 	}
 
 	public void printSolution(State s) {
@@ -125,7 +127,7 @@ public class CSPSolver {
 					seen = true;
 				}
 			}
-			if (!seen) {
+			if (seen == false) {
 				unassigned.add(item);
 			}
 		}
