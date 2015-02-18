@@ -70,7 +70,8 @@ public class Main {
 				// This is unary inclusive
 				case 4:
 					Item addItem = new Item(null,0);
-					ItemBag addBag = new ItemBag(null,0);
+					ArrayList<ItemBag> addBags = new ArrayList<ItemBag>();
+					
 					for (Item item : items) {
 						if (item.id.equals(s[0]))
 							addItem = item;
@@ -80,10 +81,10 @@ public class Main {
 					for (int i1 = 1; i1 < s.length; i1++) {
 						for (ItemBag bag : bags) {
 							if (bag.id.equals(s[i1]))
-								addBag = bag;
+								addBags.add(bag);
 						}
 					}
-					UnaryInclusive uc = new UnaryInclusive(addBag, addItem);
+					UnaryInclusive uc = new UnaryInclusive(addBags, addItem);
 
 					constraints.addConstraint(uc);
 					break;
@@ -91,7 +92,7 @@ public class Main {
 				case 5:
 					// Get the item from the list
 					Item addUEItem = new Item(null, 0);
-					ItemBag addUEBag = new ItemBag(null,0);
+					ArrayList<ItemBag> addUEBags = new ArrayList<ItemBag>();
 					for (Item item : items) {
 						if (item.id.equals(s[0]))
 							addUEItem = item;
@@ -101,11 +102,11 @@ public class Main {
 					for (int i1 = 1; i1 < s.length; i1++) {
 						for (ItemBag bag : bags) {
 							if (bag.id.equals(s[i1]))
-								addUEBag = bag;
+								addUEBags.add(bag);
 						}
 					}
 					// Make the constraint
-					UnaryExclusive ue = new UnaryExclusive(addUEBag, addUEItem);
+					UnaryExclusive ue = new UnaryExclusive(addUEBags, addUEItem);
 
 					// Add it to the constraint manager
 					constraints.addConstraint(ue);

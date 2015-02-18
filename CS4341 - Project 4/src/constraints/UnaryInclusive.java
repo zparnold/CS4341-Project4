@@ -15,9 +15,9 @@ public class UnaryInclusive implements Constraint {
 	 */
 	
 	Item i;
-	ItemBag b;
+	ArrayList<ItemBag> b;
 
-	public UnaryInclusive(ItemBag bag, Item i) {
+	public UnaryInclusive(ArrayList<ItemBag> bag, Item i) {
 		this.b = bag;
 		this.i = i;
 	}
@@ -25,13 +25,11 @@ public class UnaryInclusive implements Constraint {
 	@Override
 	public boolean isValid(State currentState, ItemBag bag, Item item) {
 		// TODO Auto-generated method stub
-		if(bag.getID().equals(b.getID())){
-			if(item.getID().equals(i.getID())){
-				if(!bag.getItems().contains(i)){
-					return false;
-				}
-			}
-		}
+				if(item.getID().equals(i.getID())){
+					if(!b.contains(bag)){
+						return false;
+					}
+				}		
 		
 		return true;
 	}

@@ -34,7 +34,7 @@ public class BinaryMutualExclusive implements Constraint {
 	@Override
 	public boolean isValid(State currentState, ItemBag bag, Item item) {
 		if(bag.getID().equals(A.getID())){
-			if(item.getID().equals(a)){
+			if(item.getID().equals(a.getID())){
 				if(A.getItems().contains(a) && B.getItems().contains(b)){
 					return false;
 				}
@@ -46,7 +46,7 @@ public class BinaryMutualExclusive implements Constraint {
 		}
 		
 		if(bag.getID().equals(B.getID())){
-			if(item.getID().equals(b)){
+			if(item.getID().equals(b.getID())){
 				if(B.getItems().contains(b) && A.getItems().contains(a)){
 					return false;
 				}
