@@ -77,22 +77,24 @@ public class CSPSolver {
 					bag.addItem(var);
 
 					if (constraintManager.tryPut(currentState, bag, var)) {
-						successfulTry = true;
-						successes++;
+						if (stateValid(currentState)) {
+							successfulTry = true;
+							successes++;
+						}
 					} else {
 						fails++;
 					}
 
 					if (successfulTry) {
 						stateStack.push(currentState);
-						//backtrackRecursive(currentState);
+						// backtrackRecursive(currentState);
 					}
 				}
 			}
-			System.out.println("----- Unsatisfied Constraints -----");
-			printSolution(holder);
-			return holder;
+			
 		}
+		System.out.println("----- Unsatisfied Constraints -----");
+		printSolution(holder);
 		return holder;
 
 	}
