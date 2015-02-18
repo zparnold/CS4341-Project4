@@ -65,6 +65,7 @@ public class ItemBag {
 	}
 	
 	public void addItem(Item i){
+		i.setAssigned(true);
 		this.items.add(i);
 	}
 

@@ -121,16 +121,11 @@ public class CSPSolver {
 		ArrayList<Item> unassigned = new ArrayList<Item>();
 
 		for (Item item : s.getItems()) {
-			boolean seen = false;
-			for (ItemBag bag : s.getBags()) {
-				if (bag.getItems().contains(item)) {
-					seen = true;
-				}
-			}
-			if (seen == false) {
+			if (item.isAssigned == false) {
 				unassigned.add(item);
 			}
 		}
+		
 		if (unassigned.isEmpty())
 			return null;
 		else
