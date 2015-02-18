@@ -38,28 +38,37 @@ public class CSPSolver {
 		// and call the recursive algorithm
 
 		State newState = new State(bags, items);
+		stateStack.push(newState);
 		return backtrackRecursive(newState);
 	}
 
 	private State backtrackRecursive(State holder) {
-		State returnState = new State(bags,items);
-
-		if (holder.getItems().isEmpty()) {
-			System.out.println("Hooray! We're done! Domain Empty: " + holder.toString());
+		
+		if (stateStack.isEmpty()) {
+			System.out.println("Hooray! We're done! Domain Empty: "
+					+ holder.toString());
 			return holder;
 		}
 
 		Item var = this.getUnassignedVar(holder);
 
-		for (ItemBag bag : holder.getBags()) {
-			if ((bag.capacity - bag.getTotalWeight()) >= var.weight) {
+		while (!stateStack.isEmpty()) {
+			State currentState = stateStack.pop();
 
-				if (constraintManager.tryPut(holder,bag,var)) {
+			boolean successfulTry = false;
 
-					backtrackRecursive(holder);
-				} 
+			for (ItemBag bag : currentState.getBags()) {
+				bag.addItem(var);
+
+				if (constraintManager.tryPut(currentState,
+						bag, var)) {
+					successfulTry = true;
+				}
+
+				if (successfulTry) {
+					backtrackRecursive(currentState);
+				}
 			}
-
 		}
 		System.out.println("Unsatisfied Constraints:" + holder.toString());
 		return holder;
