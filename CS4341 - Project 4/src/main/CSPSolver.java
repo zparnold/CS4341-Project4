@@ -54,7 +54,7 @@ public class CSPSolver {
 		for (ItemBag bag : holder.getBags()) {
 			if ((bag.capacity - bag.getTotalWeight()) >= var.weight) {
 
-				if (constraintManager.tryPut(holder,var,bag)) {
+				if (constraintManager.tryPut(holder,bag,var)) {
 
 					backtrackRecursive(holder);
 				} 
