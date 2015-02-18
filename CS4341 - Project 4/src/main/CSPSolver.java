@@ -18,7 +18,10 @@ public class CSPSolver {
 	private ArrayList<ItemBag> bags;
 	private int counter = 0;
 	private Stack<State> stateStack = new Stack<State>();
+	private Stack<Item> itemStack = new Stack<Item>();
 	private ConstraintManager constraintManager;
+
+	private static int steps, successes, fails = 0;
 
 	public CSPSolver(ArrayList<Item> items, ArrayList<ItemBag> bags,
 			ConstraintManager constraints) {
@@ -36,21 +39,30 @@ public class CSPSolver {
 	public State backtrackSearch() {
 		// make a new state, push it on the stack
 		// and call the recursive algorithm
-
+		for (Item item : items) {
+			itemStack.push(item);
+		}
 		State newState = new State(bags, items);
 		stateStack.push(newState);
 		return backtrackRecursive(newState);
 	}
 
 	private State backtrackRecursive(State holder) {
-		
+		steps++;
 		if (stateStack.isEmpty()) {
-			System.out.println("Hooray! We're done! Domain Empty: "
-					+ holder.toString());
+			System.out.println("Hooray! We're done");
+			printSolution(holder);
+			System.out.println("-----------------------------------");
 			return holder;
 		}
-
-		Item var = this.getUnassignedVar(holder);
+		
+		Item var = new Item(null,0);
+		
+		//We've assigned all the variables
+		if((var = getUnassignedVar(holder)) == null){
+			return holder;
+		}
+		else{
 
 		while (!stateStack.isEmpty()) {
 			State currentState = stateStack.pop();
@@ -60,18 +72,42 @@ public class CSPSolver {
 			for (ItemBag bag : currentState.getBags()) {
 				bag.addItem(var);
 
-				if (constraintManager.tryPut(currentState,
-						bag, var)) {
+				if (constraintManager.tryPut(currentState, bag, var)) {
 					successfulTry = true;
+					successes++;
+				} else {
+					fails++;
 				}
 
 				if (successfulTry) {
+					stateStack.push(currentState);
 					backtrackRecursive(currentState);
 				}
 			}
 		}
-		System.out.println("Unsatisfied Constraints:" + holder.toString());
+		System.out.println("----- Unsatisfied Constraints -----");
+		printSolution(holder);
 		return holder;
+		}
+	}
+
+	public void printSolution(State s) {
+
+		for (ItemBag bag : s.getBags()) {
+			System.out.print(bag.id + " : ");
+			for (Item i : bag.getItems()) {
+				System.out.print(i.id + " ");
+			}
+			System.out.print("\n");
+			System.out.println("Capacity : " + bag.getTotalWeight() + "/"
+					+ bag.capacity);
+			System.out.println("Wasted Capacity : " + bag.getWastedCapacity());
+			System.out.println();
+		}
+		System.out.println("Successes: " + this.successes);
+		System.out.println("Fails: " + this.fails);
+		System.out.println("Total Steps: " + this.steps);
+
 	}
 
 	/**
@@ -80,7 +116,23 @@ public class CSPSolver {
 	 * @return the item
 	 */
 	private Item getUnassignedVar(State s) {
-		return s.getItems().get(0);
+		ArrayList<Item> unassigned = new ArrayList<Item>();
+
+		for (Item item : s.getItems()) {
+			boolean seen = false;
+			for (ItemBag bag : s.getBags()) {
+				if (bag.getItems().contains(item)) {
+					seen = true;
+				}
+			}
+			if (!seen) {
+				unassigned.add(item);
+			}
+		}
+		if (unassigned.isEmpty())
+			return null;
+		else
+			return unassigned.get(0);
 	}
 
 	/**
