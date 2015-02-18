@@ -35,11 +35,19 @@ public class ConstraintManager {
 	
 	public boolean tryPut(State s, ItemBag b, Item i){
 		
+		//If we try to put the item in a bag that cannot physically hold it, then return false
+		if(i.getWeight() > (b.getCapacity() - b.getTotalWeight())){
+			return false;
+		}
+		
 		for (Constraint c : constraints){
 			if(!c.isValid(s, b, i)){
+				System.out.println(c.getClass() + b.getID() + i.getID());
 				return false;
 			}
 		}
+		s.addItemToBag(b, i);
+		
 		return true;
 	}
 	

@@ -32,7 +32,7 @@ public class ItemBag {
 	 * Helper function for getWastedCapacity
 	 * @return The total weight of all items in the bag.
 	 */
-	int getTotalWeight(){
+	public int getTotalWeight(){
 		int totalWeight = 0;
 		if(items.size() == 0){
 			return totalWeight;
@@ -67,6 +67,11 @@ public class ItemBag {
 	public void addItem(Item i){
 		i.setAssigned(true);
 		this.items.add(i);
+	}
+	
+	public void removeItem(Item i){
+		i.setAssigned(false);
+		this.items.remove(i);
 	}
 
 	public void setLowerFit(int lowerFit) {

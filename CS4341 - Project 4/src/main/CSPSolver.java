@@ -28,6 +28,7 @@ public class CSPSolver {
 		this.items = items;
 		this.bags = bags;
 		this.constraintManager = constraints;
+		
 	}
 
 	/**
@@ -61,21 +62,30 @@ public class CSPSolver {
 			return holder;
 		}
 
-		Item var = new Item(null, 0);
+		Item var;
 
 		// We've assigned all the variables
 		// Item var = getUnassignedVar(holder);
 
 		while (!stateStack.isEmpty()) {
-			if ((var = getUnassignedVar(holder)) == null) {
+			if ((var = getUnassignedVar2(holder)) == null) {
+				System.out.println("Hooray! We're done");
+				printSolution(holder);
+				System.out.println("-----------------------------------");
 				return holder;
 			} else {
+				
 				State currentState = stateStack.pop();
-
+				var = getUnassignedVar2(currentState);
+				
 				for (ItemBag bag : currentState.getBags()) {
 					boolean successfulTry = false;
-					bag.addItem(var);
-
+					//bag.addItem(var);
+					
+					System.out.println("----- Adding Item: " + var.getID() + " To Bag: " + bag.getID() + " -----");
+					System.out.println("----- Checking the Current State -----");
+					printSolution(currentState);
+					
 					if (constraintManager.tryPut(currentState, bag, var)) {
 						if (stateValid(currentState)) {
 							successfulTry = true;
@@ -83,15 +93,18 @@ public class CSPSolver {
 						}
 					} else {
 						fails++;
+						//bag.removeItem(var);
+						System.out.println("----- Current State is not valid -----");
+						System.out.println();
 					}
 
 					if (successfulTry) {
+						System.out.println("----- Current State is valid. Deeper we go -----");
 						stateStack.push(currentState);
 						// backtrackRecursive(currentState);
 					}
 				}
 			}
-			
 		}
 		System.out.println("----- Unsatisfied Constraints -----");
 		printSolution(holder);
@@ -137,6 +150,16 @@ public class CSPSolver {
 		else
 			return unassigned.get(0);
 	}
+	
+	private Item getUnassignedVar2(State s) {
+		ArrayList<Item> unassigned = s.getUnusedItems();
+		if(unassigned.isEmpty()){
+			return null;
+		}else{
+			System.out.println(unassigned.toString());
+			return unassigned.get(0);
+		}
+	}
 
 	/**
 	 * Checks that the given state is valid.
@@ -152,20 +175,22 @@ public class CSPSolver {
 			int weightSum = 0, itemCount = 0;
 
 			for (Item item : checkState.getItems()) {
-				if (item.isAssigned)
-					continue;
-				itemCount += 1;
-				weightSum += item.weight;
+				if (item.isAssigned){
+					//continue;
+					itemCount += 1;
+					weightSum += item.weight;
+				}
 			}
 
 			if (((float) weightSum / bag.capacity) < 0.90) {
 
 				return false;
 			}
-
-			if (itemCount < bag.lowerFit) {
+			/*
+			if (!(itemCount < bag.lowerFit)) {
 				return false;
 			}
+			*/
 		}
 
 		return true;
