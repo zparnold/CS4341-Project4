@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import main.Item;
 import main.ItemBag;
+import main.State;
 
 /**
  * All the constraints will derive from this class
@@ -15,9 +16,9 @@ public interface Constraint {
 	
 	/**
 	 * Each Constraint will have a function that verifies if its been validated
-	 * @param bag
-	 * @param item
+	 * @param bag The bag we are trying to insert into.
+	 * @param item The item we are trying to insert.
 	 * @return valid
 	 */
-	boolean isValid(ArrayList<ItemBag> bag, ArrayList<Item> items);
+	boolean isValid(State currentState, ItemBag bag, Item item);
 }

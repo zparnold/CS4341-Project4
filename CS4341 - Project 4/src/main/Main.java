@@ -70,20 +70,20 @@ public class Main {
 				// This is unary inclusive
 				case 4:
 					Item addItem = new Item(null,0);
+					ItemBag addBag = new ItemBag(null,0);
 					for (Item item : items) {
 						if (item.id.equals(s[0]))
 							addItem = item;
 					}
 
-					ArrayList<ItemBag> ibArray = new ArrayList<ItemBag>();
 					// Fetch the bags from the bag list
 					for (int i1 = 1; i1 < s.length; i1++) {
 						for (ItemBag bag : bags) {
 							if (bag.id.equals(s[i1]))
-								ibArray.add(bag);
+								addBag = bag;
 						}
 					}
-					UnaryInclusive uc = new UnaryInclusive(ibArray, addItem);
+					UnaryInclusive uc = new UnaryInclusive(addBag, addItem);
 
 					constraints.addConstraint(uc);
 					break;
@@ -91,45 +91,45 @@ public class Main {
 				case 5:
 					// Get the item from the list
 					Item addUEItem = new Item(null, 0);
+					ItemBag addUEBag = new ItemBag(null,0);
 					for (Item item : items) {
 						if (item.id.equals(s[0]))
 							addUEItem = item;
 					}
 
-					ArrayList<ItemBag> ibUEArray = new ArrayList<ItemBag>();
 					// Fetch the bags from the bag list
 					for (int i1 = 1; i1 < s.length; i1++) {
 						for (ItemBag bag : bags) {
 							if (bag.id.equals(s[i1]))
-								ibUEArray.add(bag);
+								addUEBag = bag;
 						}
 					}
 					// Make the constraint
-					UnaryExclusive ue = new UnaryExclusive(ibUEArray, addUEItem);
+					UnaryExclusive ue = new UnaryExclusive(addUEBag, addUEItem);
 
 					// Add it to the constraint manager
 					constraints.addConstraint(ue);
 					break;
 				// binary equal vars
 				case 6:
-					ArrayList<Item> beItems = new ArrayList<Item>();
-					ArrayList<ItemBag> beBags = bags;
+					ArrayList<Item> BEItems = new ArrayList<Item>();
 
 					// Loop over string array looking for bag matches
 					for (int i1 = 0; i1 < s.length; i1++) {
 						for (Item item : items) {
-							if (item.id.equals(s[i1]))
-								beItems.add(item);
+							if (item.id.equals(s[i1])){
+								BEItems.add(item);
+								
+							}
 						}
 					}
 
-					BinaryEqual be = new BinaryEqual(beBags, beItems);
+					BinaryEqual be = new BinaryEqual(BEItems.get(0),BEItems.get(1));
 					constraints.addConstraint(be);
 					break;
 				// This is binary not equals
 				case 7:
 					ArrayList<Item> bneItems = new ArrayList<Item>();
-					ArrayList<ItemBag> bneBags = bags;
 
 					// Loop over string array looking for bag matches
 					for (int i1 = 0; i1 < s.length; i1++) {
@@ -139,7 +139,7 @@ public class Main {
 						}
 					}
 
-					BinaryNotEqual bne = new BinaryNotEqual(bneBags, bneItems);
+					BinaryNotEqual bne = new BinaryNotEqual(bneItems.get(0), bneItems.get(1));
 					constraints.addConstraint(bne);
 
 					break;
@@ -162,7 +162,7 @@ public class Main {
 							meBags.add(itemBag);
 					}
 
-					BinaryMutualExclusive me = new BinaryMutualExclusive(meBags, meItems);
+					BinaryMutualExclusive me = new BinaryMutualExclusive(meBags.get(0),meBags.get(1), meItems.get(0),meItems.get(1));
 					constraints.addConstraint(me);
 					break;
 				}

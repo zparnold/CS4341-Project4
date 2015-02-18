@@ -44,7 +44,7 @@ public class CSPSolver {
 	private State backtrackRecursive(State holder) {
 		State returnState = new State(bags,items);
 
-		if (holder.getDomain().isEmpty()) {
+		if (holder.getItems().isEmpty()) {
 			System.out.println("Hooray! We're done! Domain Empty: " + holder.toString());
 			return holder;
 		}
@@ -53,9 +53,8 @@ public class CSPSolver {
 
 		for (ItemBag bag : holder.getBags()) {
 			if ((bag.capacity - bag.getTotalWeight()) >= var.weight) {
-				bag.items.add(var);
 
-				if (constraintManager.isSatisfied(holder)) {
+				if (constraintManager.tryPut(holder,var,bag)) {
 
 					backtrackRecursive(holder);
 				} 
@@ -72,7 +71,7 @@ public class CSPSolver {
 	 * @return the item
 	 */
 	private Item getUnassignedVar(State s) {
-		return s.getDomain().get(0);
+		return s.getItems().get(0);
 	}
 
 	/**

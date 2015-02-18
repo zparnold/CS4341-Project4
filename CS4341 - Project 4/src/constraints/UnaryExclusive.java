@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import main.Item;
 import main.ItemBag;
+import main.State;
 
 public class UnaryExclusive implements Constraint {
 	/*
@@ -14,23 +15,28 @@ public class UnaryExclusive implements Constraint {
 	 * Need to check if an item is NOT in a bag
 	 */
 
-	Item item;
-	ArrayList<ItemBag> bags = new ArrayList<ItemBag>();
+	Item i;
+	ItemBag b;
 
-	public UnaryExclusive(ArrayList<ItemBag> bags, Item i) {
-		this.bags = bags;
-		this.item = i;
+	public UnaryExclusive(ItemBag bag, Item i) {
+		this.b = bag;
+		this.i = i;
 	}
 
-	public boolean isValid(ArrayList<ItemBag> bag, ArrayList<Item> i) {
-		// Loop over bags, ensure all items are in at least one
-		boolean flag = true;
-
-		for (ItemBag itemBag : bags) {
-			if (itemBag.getItems().containsAll(i))
-				flag = false;
+	@Override
+	public boolean isValid(State currentState, ItemBag bag, Item item) {
+		// TODO Auto-generated method stub
+		if(bag.getID().equals(b.getID())){
+			if(item.getID().equals(i.getID())){
+				if(bag.getItems().contains(i)){
+					return false;
+				}
+			}
 		}
-		return flag;
+		
+		return true;
 	}
+
+	
 
 }

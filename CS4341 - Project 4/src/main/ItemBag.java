@@ -44,6 +44,10 @@ public class ItemBag {
 		return totalWeight;
 	}
 	
+	public String getID() {
+		return id;
+	}
+	
 	/**
 	 * Getter for capacity
 	 * @return capacity

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import main.Item;
 import main.ItemBag;
+import main.State;
 
 public class BinaryMutualExclusive implements Constraint {
 	
@@ -14,27 +15,51 @@ public class BinaryMutualExclusive implements Constraint {
 	 * @param item2
 	 * @return
 	 */
-	ArrayList<ItemBag> bags = new ArrayList<ItemBag>();
-	ArrayList<Item> items = new ArrayList<Item>();
+	Item a, b;
+	ItemBag A, B;
 	
-	public BinaryMutualExclusive(ArrayList<ItemBag> bags, ArrayList<Item> items){
-		this.bags = bags;
-		this.items = items;
+	public BinaryMutualExclusive(ItemBag A, ItemBag B, Item a, Item b){
+		this.A = A;
+		this.B = B;
+		this.a = a;
+		this.b = b;
+		
 	}
-
-	/*
-	 * We always know that with Mutually Esclusive Contraints that there will be TWO bags
-	 * and TWO items. If A contains a, then B cannot contain b and vice versa.
+	
+	/**
+	 * If inserted item matches one of the items in this contraint
+	 * then if the complimentary item exists in a complimentary bag
+	 * then we return false.
 	 */
 	@Override
-	public boolean isValid(ArrayList<ItemBag> bags, ArrayList<Item> items){
-		if(bags.get(0).getItems().contains(items.get(0)) && bags.get(1).getItems().contains(items.get(1))
-				|| bags.get(1).getItems().contains(items.get(1)) && bags.get(0).getItems().contains(items.get(0))){
-			return false;
+	public boolean isValid(State currentState, ItemBag bag, Item item) {
+		if(bag.getID().equals(A.getID())){
+			if(item.getID().equals(a)){
+				if(A.getItems().contains(a) && B.getItems().contains(b)){
+					return false;
+				}
+				
+				if(A.getItems().contains(b) && B.getItems().contains(a)){
+					return false;
+				}
+			}
 		}
 		
+		if(bag.getID().equals(B.getID())){
+			if(item.getID().equals(b)){
+				if(B.getItems().contains(b) && A.getItems().contains(a)){
+					return false;
+				}
+				
+				if(B.getItems().contains(a) && A.getItems().contains(b)){
+					return false;
+				}
+			}
+		}
 		return true;
 	}
+
+	
 
 
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import main.Item;
 import main.ItemBag;
+import main.State;
 
 public class BinaryNotEqual implements Constraint {
 	
@@ -16,20 +17,40 @@ public class BinaryNotEqual implements Constraint {
 	 * @param item2
 	 * @return
 	 */
-	ArrayList<ItemBag> bags = new ArrayList<ItemBag>();
-	ArrayList<Item> items = new ArrayList<Item>();
+	Item a;
+	Item b;
 	
-	public BinaryNotEqual(ArrayList<ItemBag> bags, ArrayList<Item> items){
-		this.bags = bags;
-		this.items = items;
+	public BinaryNotEqual(Item A, Item B){
+		this.a = A;
+		this.b = B;
 	}
-	
+
+	/**
+	 * If two items are in the same bag, then isValid returns true
+	 */
 	@Override
-	public boolean isValid(ArrayList<ItemBag> bags, ArrayList<Item> items){
-		for(ItemBag bag : bags){
-			if(bag.getItems().containsAll(items))
-				return false;
+	public boolean isValid(State currentState, ItemBag bag, Item item) {
+		//If input item is the same as item in constraint
+		if(item.getID().equals(a.getID())){
+			//If first item is in the bag
+			if(bag.getItems().contains(a)){
+				if(bag.getItems().contains(b)){
+					return false;
+				}
+			}
 		}
+		
+		//Do the same for untested item
+		if(item.getID().equals(b.getID())){
+			//If first item is in the bag
+			if(bag.getItems().contains(b)){
+				if(bag.getItems().contains(a)){
+					return false;
+				}
+			}
+		}
+		
+		
 		return true;
 	}
 

@@ -33,18 +33,14 @@ public class ConstraintManager {
 		this.constraints.add(constraint);
 	}
 	
-	public boolean isSatisfied(State s){
-		int successCount = 0;
+	public boolean tryPut(State s, ItemBag b, Item i){
 		
 		for (Constraint c : constraints){
-			if(c.isValid(s.getBags(), s.getDomain()))
-				successCount++;
+			if(!c.isValid(s, b, i)){
+				return false;
+			}
 		}
-		
-		if(successCount == constraints.size())
-			return true;
-		else 
-			return false;
+		return true;
 	}
 	
 }

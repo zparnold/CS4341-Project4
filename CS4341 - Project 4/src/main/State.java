@@ -12,8 +12,9 @@ import java.util.ArrayList;
 public class State {
 	private ArrayList<ItemBag> bags;
 	// Variables that haven't been assigned yet
-	private ArrayList<Item> domain;
-	private State parent;
+	private ArrayList<Item> items;
+
+	// private State parent;
 
 	public ArrayList<ItemBag> getBags() {
 		return bags;
@@ -23,54 +24,53 @@ public class State {
 		this.bags = bags;
 	}
 
-	public ArrayList<Item> getDomain() {
-		return domain;
+	public ArrayList<Item> getItems() {
+		return items;
 	}
 
-	public void setDomain(ArrayList<Item> domain) {
-		this.domain = domain;
+	public void setItems(ArrayList<Item> newItems) {
+		this.items = newItems;
 	}
 
-	public State getParent() {
-		return parent;
-	}
-
-	public void setParent(State parent) {
-		this.parent = parent;
-	}
-
+	/*
+	 * public State getParent() { return parent; }
+	 * 
+	 * public void setParent(State parent) { this.parent = parent; }
+	 */
 	/**
 	 * General constructor for the class
+	 * 
 	 * @param newBags
 	 * @param newDomain
 	 * @param newParent
 	 */
-	public State(ArrayList<ItemBag> newBags, ArrayList<Item> newDomain,
+	public State(ArrayList<ItemBag> newBags, ArrayList<Item> newItems,
 			State newParent) {
 		this.bags = newBags;
-		this.domain = newDomain;
-		this.parent = newParent;
+		this.items = newItems;
+		//this.parent = newParent;
 	}
-	
+
 	/**
 	 * Parent-less constructor for the class
+	 * 
 	 * @param newBags
 	 * @param newDomain
 	 */
-	public State(ArrayList<ItemBag> newBags, ArrayList<Item> newDomain){
+	public State(ArrayList<ItemBag> newBags, ArrayList<Item> newDomain) {
 		this.bags = newBags;
-		this.domain = newDomain;
-		this.parent = null;
+		this.items = newDomain;
+		//this.parent = null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "State [bags=" + bags + ", domain=" + domain + ", parent="
-				+ parent + "]";
+		return "State [bags=" + bags + ", domain=" + items + "]";
 	}
-	
 
 }
