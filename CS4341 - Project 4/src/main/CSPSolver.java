@@ -68,6 +68,7 @@ public class CSPSolver {
 
 		while (!stateStack.isEmpty()) {
 			if ((var = getUnassignedVar(holder)) == null) {
+				printSolution(holder);
 				return holder;
 			} else {
 				State currentState = stateStack.pop();
@@ -77,10 +78,10 @@ public class CSPSolver {
 					bag.addItem(var);
 
 					if (constraintManager.tryPut(currentState, bag, var)) {
-						if (stateValid(currentState)) {
+						//if (stateValid(currentState)) {
 							successfulTry = true;
 							successes++;
-						}
+						//}
 					} else {
 						fails++;
 					}
@@ -91,7 +92,7 @@ public class CSPSolver {
 					}
 				}
 			}
-			
+
 		}
 		System.out.println("----- Unsatisfied Constraints -----");
 		printSolution(holder);
@@ -116,6 +117,19 @@ public class CSPSolver {
 		System.out.println("Fails: " + this.fails);
 		System.out.println("Total Steps: " + this.steps);
 
+	}
+	
+	/**
+	 * Chooses systematically random item and bag placements from a state 
+	 * @param seenState the state we wish to modify and try other combinations on
+	 */
+	private void tryOtherCombinations(State seenState){
+		Item i = getUnassignedVar(seenState);
+		
+		for (ItemBag bag : seenState.getBags()){
+			State newStateToTry = seenState;
+			
+		}
 	}
 
 	/**
@@ -151,11 +165,11 @@ public class CSPSolver {
 		for (ItemBag bag : checkState.getBags()) {
 			int weightSum = 0, itemCount = 0;
 
-			for (Item item : checkState.getItems()) {
-				if (item.isAssigned)
-					continue;
-				itemCount += 1;
-				weightSum += item.weight;
+			for (Item item : bag.getItems()) {
+				if (item.isAssigned) {
+					itemCount += 1;
+					weightSum += item.weight;
+				}
 			}
 
 			if (((float) weightSum / bag.capacity) < 0.90) {
