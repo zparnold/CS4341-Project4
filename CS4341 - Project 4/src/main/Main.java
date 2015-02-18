@@ -71,7 +71,7 @@ public class Main {
 				case 4:
 					Item addItem = new Item(null,0);
 					for (Item item : items) {
-						if (item.id == s[0])
+						if (item.id.equals(s[0]))
 							addItem = item;
 					}
 
@@ -79,7 +79,7 @@ public class Main {
 					// Fetch the bags from the bag list
 					for (int i1 = 1; i1 < s.length; i1++) {
 						for (ItemBag bag : bags) {
-							if (bag.id == s[i1])
+							if (bag.id.equals(s[i1]))
 								ibArray.add(bag);
 						}
 					}
@@ -92,7 +92,7 @@ public class Main {
 					// Get the item from the list
 					Item addUEItem = new Item(null, 0);
 					for (Item item : items) {
-						if (item.id == s[0])
+						if (item.id.equals(s[0]))
 							addUEItem = item;
 					}
 
@@ -100,7 +100,7 @@ public class Main {
 					// Fetch the bags from the bag list
 					for (int i1 = 1; i1 < s.length; i1++) {
 						for (ItemBag bag : bags) {
-							if (bag.id == s[i1])
+							if (bag.id.equals(s[i1]))
 								ibUEArray.add(bag);
 						}
 					}
@@ -118,7 +118,7 @@ public class Main {
 					// Loop over string array looking for bag matches
 					for (int i1 = 0; i1 < s.length; i1++) {
 						for (Item item : items) {
-							if (item.id == s[i1])
+							if (item.id.equals(s[i1]))
 								beItems.add(item);
 						}
 					}
@@ -134,7 +134,7 @@ public class Main {
 					// Loop over string array looking for bag matches
 					for (int i1 = 0; i1 < s.length; i1++) {
 						for (Item item : items) {
-							if (item.id == s[i1])
+							if (item.id.equals(s[i1]))
 								bneItems.add(item);
 						}
 					}
@@ -153,12 +153,12 @@ public class Main {
 					ArrayList<ItemBag> meBags = new ArrayList<ItemBag>();
 					
 					for (Item item : items){
-						if (item.id == s[0] || item.id == s[1])
+						if (item.id.equals(s[0]) || item.id.equals(s[1]))
 							meItems.add(item);
 					}
 					
 					for (ItemBag itemBag : bags){
-						if (itemBag.id == s[2] || itemBag.id == s[3])
+						if (itemBag.id.equals(s[2]) || itemBag.id.equals(s[3]))
 							meBags.add(itemBag);
 					}
 

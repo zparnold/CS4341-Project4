@@ -5,7 +5,8 @@ import java.util.ArrayList;
 public class ItemBag {
 	String id;
 	int capacity = 0;
-	int lowerFit = 0, upperFit = 0;
+	int lowerFit = 0;
+	public int upperFit = 0;
 	ArrayList<Item> items; 
 	
 	/**

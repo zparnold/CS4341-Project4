@@ -21,17 +21,23 @@ public class UnaryInclusive implements Constraint {
 		this.item = i;
 	}
 	
-	public boolean isValid(ArrayList<ItemBag> bag, ArrayList<Item> i) {
+	public boolean isValid(ArrayList<ItemBag> bags, ArrayList<Item> i) {
 	
-		//TODO WTF!!
-		for (ItemBag itemBag : bag){
-			if(false){}
+		//Loop over bags, ensure all items are in at least one
+		boolean flag = false;
+		
+		for (ItemBag itemBag : bags){
+			if(itemBag.getItems().containsAll(i))
+				flag  = true;
 		}
-		if(this.item.getID().equals(i.get(0).getID()) && this.bags.contains(i.get(0))){
+		/*if(this.item.getID().equals(i.get(0).getID()) && this.bags.contains(i.get(0))){
 			
 			return true;
 		}
 		return false;
+		*/
+		
+		return flag;
 	}
 
 }

@@ -5,6 +5,8 @@ package constraints;
 
 import java.util.ArrayList;
 
+import main.Item;
+import main.ItemBag;
 import main.State;
 
 /**
@@ -44,5 +46,5 @@ public class ConstraintManager {
 		else 
 			return false;
 	}
-
+	
 }

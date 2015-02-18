@@ -34,17 +34,18 @@ public class CSPSolver {
 	 * @return boolean, whether or not the constraints are attainable
 	 */
 	public State backtrackSearch() {
-		return backtrackRecursive(new State(bags, items));
+		// make a new state, push it on the stack
+		// and call the recursive algorithm
 
+		State newState = new State(bags, items);
+		return backtrackRecursive(newState);
 	}
 
 	private State backtrackRecursive(State holder) {
-		// Update statistics (for later)
-		counter++;
-		this.stateStack.push(holder);
+		State returnState = new State(bags,items);
 
 		if (holder.getDomain().isEmpty()) {
-			System.out.println("Domain Empty: "+holder.toString());
+			System.out.println("Hooray! We're done! Domain Empty: " + holder.toString());
 			return holder;
 		}
 
@@ -57,15 +58,7 @@ public class CSPSolver {
 				if (constraintManager.isSatisfied(holder)) {
 
 					backtrackRecursive(holder);
-				} else {
-					if (stateStack.isEmpty()){
-						System.out.println("Stack Empty: "+holder.toString());
-						return holder;
-					}
-					else
-						stateStack.pop();
-
-				}
+				} 
 			}
 
 		}
