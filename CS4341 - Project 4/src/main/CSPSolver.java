@@ -59,7 +59,7 @@ public class CSPSolver {
 		Item var = new Item(null, 0);
 
 		// We've assigned all the variables
-		//Item var = getUnassignedVar(holder);
+		// Item var = getUnassignedVar(holder);
 
 		if ((var = getUnassignedVar(holder)) == null) {
 			return holder;
@@ -125,11 +125,44 @@ public class CSPSolver {
 				unassigned.add(item);
 			}
 		}
-		
+
 		if (unassigned.isEmpty())
 			return null;
 		else
 			return unassigned.get(0);
+	}
+
+	/**
+	 * Checks that the given state is valid.
+	 * 
+	 * @param checkState
+	 * @return
+	 */
+	public boolean stateValid(State checkState) {
+		// Loop over bags and then items in the state to ensure validity
+		// (Mostly checking to make sure that the bags are over 90%
+		// full
+		for (ItemBag bag : checkState.getBags()) {
+			int weightSum = 0, itemCount = 0;
+
+			for (Item item : checkState.getItems()) {
+				if (item.isAssigned)
+					continue;
+				itemCount += 1;
+				weightSum += item.weight;
+			}
+
+			if (((float) weightSum / bag.capacity) < 0.90) {
+
+				return false;
+			}
+
+			if (itemCount < bag.lowerFit) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	/**
