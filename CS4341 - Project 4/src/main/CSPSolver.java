@@ -47,6 +47,11 @@ public class CSPSolver {
 		return backtrackRecursive(newState);
 	}
 
+	/**
+	 * 
+	 * @param holder
+	 * @return
+	 */
 	private State backtrackRecursive(State holder) {
 		steps++;
 		if (stateStack.isEmpty()) {
@@ -61,16 +66,14 @@ public class CSPSolver {
 		// We've assigned all the variables
 		// Item var = getUnassignedVar(holder);
 
-		if ((var = getUnassignedVar(holder)) == null) {
-			return holder;
-		} else {
-
-			while (!stateStack.isEmpty()) {
+		while (!stateStack.isEmpty()) {
+			if ((var = getUnassignedVar(holder)) == null) {
+				return holder;
+			} else {
 				State currentState = stateStack.pop();
 
-				boolean successfulTry = false;
-
 				for (ItemBag bag : currentState.getBags()) {
+					boolean successfulTry = false;
 					bag.addItem(var);
 
 					if (constraintManager.tryPut(currentState, bag, var)) {
@@ -82,7 +85,7 @@ public class CSPSolver {
 
 					if (successfulTry) {
 						stateStack.push(currentState);
-						backtrackRecursive(currentState);
+						//backtrackRecursive(currentState);
 					}
 				}
 			}
@@ -90,6 +93,7 @@ public class CSPSolver {
 			printSolution(holder);
 			return holder;
 		}
+		return holder;
 
 	}
 
