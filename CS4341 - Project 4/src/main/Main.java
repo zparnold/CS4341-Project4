@@ -4,7 +4,9 @@
 package main;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -175,7 +177,14 @@ public class Main {
 		  CSPSolver solver = new CSPSolver(items,bags,constraints);
 		  
 		  
-		  solver.backtrackSearch();
+		 State retState =  solver.backtrackSearch();
+		 
+		 //Print our final solution
+		 solver.printSolution(retState);
+		 
+		 BufferedWriter writer = new BufferedWriter(new FileWriter(outFileName));
+		 
+		 //writer.write();
 		 
 		streamReader.close();
 

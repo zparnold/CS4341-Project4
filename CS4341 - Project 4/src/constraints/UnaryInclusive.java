@@ -34,4 +34,9 @@ public class UnaryInclusive implements Constraint {
 		return true;
 	}
 
+	@Override
+	public boolean constrains(Item item) {
+		return(item.equals(i));
+	}
+
 }

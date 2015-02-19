@@ -21,4 +21,7 @@ public interface Constraint {
 	 * @return valid
 	 */
 	boolean isValid(State currentState, ItemBag bag, Item item);
+
+	boolean constrains(Item i);
+
 }

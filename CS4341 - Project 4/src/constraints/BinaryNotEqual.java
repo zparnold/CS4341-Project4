@@ -53,5 +53,13 @@ public class BinaryNotEqual implements Constraint {
 		
 		return true;
 	}
+	
+	@Override
+	/**
+	 * returns true if the constraint constrains is
+	 */
+	public boolean constrains(Item i) {
+		return(a.equals(i) || b.equals(i));
+	}
 
 }

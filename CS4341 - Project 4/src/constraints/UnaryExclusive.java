@@ -34,5 +34,13 @@ public class UnaryExclusive implements Constraint {
 
 		return true;
 	}
+	
+	@Override
+	/**
+	 * returns true if the constraint constrains is
+	 */
+	public boolean constrains(Item item) {
+		return(item.equals(i));
+	}
 
 }
