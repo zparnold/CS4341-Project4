@@ -122,24 +122,46 @@ public class ConstraintManager {
 	}
 	
 	/**
+	 * 
+	 * @param s
+	 */
+	public void initalizeFC(State s) {
+		// make a new array of constraints
+		ArrayList<Constraint> binaryEqual = new ArrayList<Constraint>();
+
+		for (Constraint c : constraints) {
+			if (c.getClass() == UnaryInclusive.class
+					|| c.getClass() == UnaryExclusive.class) {
+
+			}
+			if (c.getClass() == BinaryEqual.class)
+				binaryEqual.add(c);
+		}
+
+	}
+
+	/**
 	 * Gets the best next variable following the degree heuristic
+	 * 
 	 * @return and Item to place next
 	 */
-	public Item degreeHeuristic(State s){
-		
+	public Item degreeHeuristic(State s) {
+
 		int maxDegree = Integer.MIN_VALUE;
 
-		
+		// First, get the most restrained variable
 		Item mostRestrained = MostRestrainedVariable(s);
-		
+
+		// now loop over items looking for the one that
+		// is subject to the most number of constraints
 		for (Item i : s.getItems()) {
 			int degree = 0;
 			for (Constraint c : constraints) {
-				if (c.constrains(i)){
+				if (c.constrains(i)) {
 					degree++;
 				}
 			}
-			
+
 			if (degree > maxDegree) {
 				maxDegree = degree;
 				mostRestrained = i;
@@ -148,5 +170,46 @@ public class ConstraintManager {
 
 		return mostRestrained;
 	}
+
+	/**
+	 * 
+	 * @param s
+	 */
+	public void forwardCheck(State s) {
+		// If any of the next moves are a binary type
+		// They will invalidate our forward check
+		for (Constraint c : constraints) {
+			if (c.getClass() == BinaryNotEqual.class
+					|| c.getClass() == BinaryEqual.class
+					|| c.getClass() == BinaryMutualExclusive.class) {
+
+				c.forwardMoveInvalid(s);
+			}
+		}
+	}
+
+	/**
+	 * 
+	 * @param s
+	 *            the state to check
+	 * @return true or false if the bag is invalid at this state level
+	 */
+	public boolean checkForwardBagInvalidate(State s) {
+		//now check the remaining items of the state
+		//to see if we can use them
+		for (Item i : s.getUnusedItems()) {
+			int bagCount = 0;
+			for (ItemBag b : s.getBags()) {
+				if (b.getItems().contains(i))
+					bagCount++;
+			}
+			if (bagCount == s.getBags().size()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+
 
 }

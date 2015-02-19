@@ -24,4 +24,6 @@ public interface Constraint {
 
 	boolean constrains(Item i);
 
+	void forwardMoveInvalid(State s);
+
 }

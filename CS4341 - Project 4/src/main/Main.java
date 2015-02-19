@@ -184,7 +184,7 @@ public class Main {
 		 
 		 BufferedWriter writer = new BufferedWriter(new FileWriter(outFileName));
 		 
-		 //writer.write();
+		 writer.write(solver.printSolution(retState));
 		 
 		streamReader.close();
 

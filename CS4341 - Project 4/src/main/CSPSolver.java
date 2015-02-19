@@ -66,9 +66,9 @@ public class CSPSolver {
 	private State backtrackRecursive(State holder) {
 		steps++;
 		if (stateStack.isEmpty()) {
-			//System.out.println("Hooray! We're done");
-			//printSolution(holder);
-			//System.out.println("-----------------------------------");
+			System.out.println("Hooray! We're done");
+			printSolution(holder);
+			System.out.println("-----------------------------------");
 			return holder;
 		}
 
@@ -89,6 +89,17 @@ public class CSPSolver {
 				
 				State currentState = stateStack.pop();
 				//var = getUnassignedVar2(currentState);
+				
+				boolean forwardChecking = false;
+				
+				if (forwardChecking == true) {
+					constraintManager.forwardCheck(currentState);
+					if (constraintManager.checkForwardBagInvalidate(currentState)) {
+						//if the next move we make invalidates the state, we 
+						//want to prune it off first
+						return holder;
+					}
+				}
 				
 				for (ItemBag bag : currentState.getBags()) {
 					boolean successfulTry = false;
@@ -121,29 +132,41 @@ public class CSPSolver {
 				backtrackRecursive(currentState);
 			}
 		}
-		//System.out.println("----- Unsatisfied Constraints -----");
-		//printSolution(holder);
+		System.out.println("----- Unsatisfied Constraints -----");
+		printSolution(holder);
 		return holder;
 
 	}
 
-	public void printSolution(State s) {
+	public String printSolution(State s) {
+		
+		StringBuilder sb = new StringBuilder();
 
 		for (ItemBag bag : s.getBags()) {
 			System.out.print(bag.id + " : ");
+			sb.append(bag.id + " : ");
 			for (Item i : bag.getItems()) {
 				System.out.print(i.id + " ");
+				sb.append(i.id + " ");
 			}
 			System.out.print("\n");
+			sb.append("\n");
 			System.out.println("Capacity : " + bag.getTotalWeight() + "/"
 					+ bag.capacity);
+			sb.append("Capacity : " + bag.getTotalWeight() + "/"
+					+ bag.capacity);
 			System.out.println("Wasted Capacity : " + bag.getWastedCapacity());
+			sb.append("Wasted Capacity : " + bag.getWastedCapacity());
 			System.out.println();
+			sb.append("\n");
 		}
 		System.out.println("Successes: " + this.successes);
+		sb.append("Successes: " + this.successes);
 		System.out.println("Fails: " + this.fails);
+		sb.append("Fails: " + this.fails);
 		System.out.println("Total Steps: " + this.steps);
-
+		sb.append("Total Steps: " + this.steps);
+		return sb.toString();
 	}
 
 	/**

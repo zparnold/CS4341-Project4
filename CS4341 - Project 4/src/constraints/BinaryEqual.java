@@ -67,5 +67,11 @@ public class BinaryEqual implements Constraint {
 		return(a.equals(i) || b.equals(i));
 	}
 
+	@Override
+	public void forwardMoveInvalid(State s) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 }

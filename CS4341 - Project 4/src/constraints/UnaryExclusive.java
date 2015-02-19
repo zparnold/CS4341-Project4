@@ -43,4 +43,10 @@ public class UnaryExclusive implements Constraint {
 		return(item.equals(i));
 	}
 
+	@Override
+	public void forwardMoveInvalid(State s) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
