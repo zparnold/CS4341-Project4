@@ -45,15 +45,13 @@ public class CSPSolver {
 			itemStack.push(item);
 		}
 		State newState = new State(bags, items);
+		Collections.shuffle(newState.getItems());
 		stateStack.push(newState);
-		
-		State returnState = newState;
-		
-		while(!stateValid(backtrackRecursive(returnState))){
-			Collections.shuffle(newState.getUnusedItems());
-			
-			backtrackRecursive(newState);
-			
+		int counter = 0;
+		while(!stateValid(backtrackRecursive(newState))){
+			Collections.shuffle(newState.getItems());
+			System.out.println("Iteration: " + counter);
+			counter++;
 		}
 		System.out.println("Houston...we have found our solution with StateValid");
 		
@@ -68,9 +66,9 @@ public class CSPSolver {
 	private State backtrackRecursive(State holder) {
 		steps++;
 		if (stateStack.isEmpty()) {
-			System.out.println("Hooray! We're done");
-			printSolution(holder);
-			System.out.println("-----------------------------------");
+			//System.out.println("Hooray! We're done");
+			//printSolution(holder);
+			//System.out.println("-----------------------------------");
 			return holder;
 		}
 
@@ -110,14 +108,13 @@ public class CSPSolver {
 						//bag.removeItem(var);
 						System.out.println("----- Current State is not valid -----");
 						System.out.println();
-						backtrackRecursive(currentState);
 					}
 
 					if (successfulTry) {
 						System.out.println("----- Current State is valid. Deeper we go -----");
 						stateStack.push(currentState);
-						State newState = currentState;
-						stateStack.push(newState);
+						//State newState = currentState;
+						//stateStack.push(newState);
 					}
 				}
 				
