@@ -1,0 +1,122 @@
+[Item [id=C, weight=14]
+, Item [id=D, weight=14]
+]
+[Item [id=C, weight=14]
+, Item [id=D, weight=14]
+]
+[Item [id=C, weight=14]
+, Item [id=D, weight=14]
+]
+----- Adding Item: C To Bag: p -----
+----- Checking the Current State -----
+p : 
+Capacity : 0/15
+Wasted Capacity : 15
+
+q : 
+Capacity : 0/15
+Wasted Capacity : 15
+
+Successes: 0
+Fails: 0
+Total Steps: 1
+----- Current State is valid. Deeper we go -----
+----- Adding Item: C To Bag: q -----
+----- Checking the Current State -----
+p : C 
+Capacity : 14/15
+Wasted Capacity : 1
+
+q : 
+Capacity : 0/15
+Wasted Capacity : 15
+
+Successes: 1
+Fails: 0
+Total Steps: 1
+----- Current State is not valid -----
+
+[Item [id=D, weight=14]
+]
+[Item [id=D, weight=14]
+]
+----- Adding Item: D To Bag: p -----
+----- Checking the Current State -----
+p : C 
+Capacity : 14/15
+Wasted Capacity : 1
+
+q : 
+Capacity : 0/15
+Wasted Capacity : 15
+
+Successes: 1
+Fails: 1
+Total Steps: 2
+----- Current State is not valid -----
+
+----- Adding Item: D To Bag: q -----
+----- Checking the Current State -----
+p : C 
+Capacity : 14/15
+Wasted Capacity : 1
+
+q : 
+Capacity : 0/15
+Wasted Capacity : 15
+
+Successes: 1
+Fails: 2
+Total Steps: 2
+----- Current State is valid. Deeper we go -----
+Hooray! We're done
+p : C 
+Capacity : 14/15
+Wasted Capacity : 1
+
+q : D 
+Capacity : 14/15
+Wasted Capacity : 1
+
+Successes: 2
+Fails: 2
+Total Steps: 3
+-----------------------------------
+Hooray! We're done
+p : C 
+Capacity : 14/15
+Wasted Capacity : 1
+
+q : D 
+Capacity : 14/15
+Wasted Capacity : 1
+
+Successes: 2
+Fails: 2
+Total Steps: 3
+-----------------------------------
+Hooray! We're done
+p : C 
+Capacity : 14/15
+Wasted Capacity : 1
+
+q : D 
+Capacity : 14/15
+Wasted Capacity : 1
+
+Successes: 2
+Fails: 2
+Total Steps: 3
+-----------------------------------
+Houston...we have found our solution with StateValid
+p : C 
+Capacity : 14/15
+Wasted Capacity : 1
+
+q : D 
+Capacity : 14/15
+Wasted Capacity : 1
+
+Successes: 2
+Fails: 2
+Total Steps: 3
