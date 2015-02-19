@@ -4,6 +4,7 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Stack;
 
 import constraints.ConstraintManager;
@@ -45,7 +46,18 @@ public class CSPSolver {
 		}
 		State newState = new State(bags, items);
 		stateStack.push(newState);
-		return backtrackRecursive(newState);
+		
+		State returnState = newState;
+		
+		while(!stateValid(backtrackRecursive(returnState))){
+			Collections.shuffle(newState.getUnusedItems());
+			
+			backtrackRecursive(newState);
+			
+		}
+		System.out.println("Houston...we have found our solution with StateValid");
+		
+		return newState;
 	}
 
 	/**
@@ -65,10 +77,12 @@ public class CSPSolver {
 		Item var;
 
 		// We've assigned all the variables
-		// Item var = getUnassignedVar(holder);
+		var = getUnassignedVar2(holder);
 
 		while (!stateStack.isEmpty()) {
+			
 			if ((var = getUnassignedVar2(holder)) == null) {
+				
 				System.out.println("Hooray! We're done");
 				printSolution(holder);
 				System.out.println("-----------------------------------");
@@ -76,7 +90,7 @@ public class CSPSolver {
 			} else {
 				
 				State currentState = stateStack.pop();
-				var = getUnassignedVar2(currentState);
+				//var = getUnassignedVar2(currentState);
 				
 				for (ItemBag bag : currentState.getBags()) {
 					boolean successfulTry = false;
@@ -87,27 +101,31 @@ public class CSPSolver {
 					printSolution(currentState);
 					
 					if (constraintManager.tryPut(currentState, bag, var)) {
-						if (stateValid(currentState)) {
+						//if (stateValid(currentState)) {
 							successfulTry = true;
 							successes++;
-						}
+						//}
 					} else {
 						fails++;
 						//bag.removeItem(var);
 						System.out.println("----- Current State is not valid -----");
 						System.out.println();
+						backtrackRecursive(currentState);
 					}
 
 					if (successfulTry) {
 						System.out.println("----- Current State is valid. Deeper we go -----");
 						stateStack.push(currentState);
-						// backtrackRecursive(currentState);
+						State newState = currentState;
+						stateStack.push(newState);
 					}
 				}
+				
+				backtrackRecursive(currentState);
 			}
 		}
-		System.out.println("----- Unsatisfied Constraints -----");
-		printSolution(holder);
+		//System.out.println("----- Unsatisfied Constraints -----");
+		//printSolution(holder);
 		return holder;
 
 	}
@@ -171,11 +189,14 @@ public class CSPSolver {
 		// Loop over bags and then items in the state to ensure validity
 		// (Mostly checking to make sure that the bags are over 90%
 		// full
+		if(checkState.getUnusedItems().size() > 0)
+			return false;
+		
 		for (ItemBag bag : checkState.getBags()) {
 			int weightSum = 0, itemCount = 0;
 
 			for (Item item : checkState.getItems()) {
-				if (item.isAssigned){
+				if (!checkState.getUnusedItems().contains(item)){
 					//continue;
 					itemCount += 1;
 					weightSum += item.weight;
@@ -186,11 +207,10 @@ public class CSPSolver {
 
 				return false;
 			}
-			/*
-			if (!(itemCount < bag.lowerFit)) {
+			
+			if(!(checkState.getItems().size() == itemCount))
 				return false;
-			}
-			*/
+			
 		}
 
 		return true;

@@ -26,6 +26,7 @@ public class Main {
 	 * @throws IOException
 	 */
 	public static void main(String[] args) throws IOException {
+		String outFileName = args[1];
 		BufferedReader streamReader = new BufferedReader(
 				new FileReader(args[0]));
 		String line = "";
@@ -172,6 +173,7 @@ public class Main {
 
 		// Now create the world, instantiate the solver and solve it!
 		  CSPSolver solver = new CSPSolver(items,bags,constraints);
+		  
 		  
 		  solver.backtrackSearch();
 		 

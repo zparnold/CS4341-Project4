@@ -13,7 +13,7 @@ public class State {
 	private ArrayList<ItemBag> bags;
 	// Variables that haven't been assigned yet
 	private ArrayList<Item> items;
-	private ArrayList<Item> usedItems = new ArrayList<Item>();;
+	private ArrayList<Item> unusedItems = new ArrayList<Item>();;
 
 	// private State parent;
 
@@ -64,7 +64,7 @@ public class State {
 		this.items = newDomain;
 		
 		updateUnusedItems();
-		System.out.println(usedItems.toString());
+		System.out.println(unusedItems.toString());
 		//this.parent = null;
 	}
 	
@@ -73,7 +73,7 @@ public class State {
 	 * @return Return the items that are NOT already included in the state
 	 */
 	public ArrayList<Item> getUnusedItems(){
-		return usedItems;
+		return unusedItems;
 	}
 	
 	public void addItemToBag(ItemBag bag, Item i){
@@ -82,14 +82,14 @@ public class State {
 				ib.addItem(i);
 			}
 		}
-		usedItems.remove(i);
+		unusedItems.remove(i);
 	}
 	
 	private void updateUnusedItems(){
 		for(Item i : items){
 			for(ItemBag b : bags){
-				if(!b.getItems().contains(i) && !usedItems.contains(i)){
-					usedItems.add(i);
+				if(!b.getItems().contains(i) && !unusedItems.contains(i)){
+					unusedItems.add(i);
 				}
 			}
 		}
