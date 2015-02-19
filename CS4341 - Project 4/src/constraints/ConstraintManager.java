@@ -68,7 +68,7 @@ public class ConstraintManager {
 		
 		//For each item, if a constraint allows an item to be placed in a bag,
 		//then we increment a counter corresponding to that items position in an array
-		for(Item i : s.getItems()){
+		for(Item i : s.getUnusedItems()){
 			for(ItemBag b : s.getBags()){
 				for (Constraint c : constraints){
 					if(c.isValid(s, b, i)){
@@ -88,13 +88,33 @@ public class ConstraintManager {
 	
 	/**
 	 * 
-	 * @param s
-	 * @return
+	 * @param s the State to analyze
+	 * @return the item with the least number of constraints assigned to it
 	 */
 	public Item leastConstrainingVariable(State s){
 		
+		int[] lcvCount = new int[s.getItems().size()];
+		int index = 0;
 		
-		return null;
+		//basically the same as above, if we can assign it to a lot of things
+		//then it makes sense to assume that it is not a constraining impact
+		//on the problems
+		for(Item i : s.getUnusedItems()){
+			for(ItemBag b : s.getBags()){
+				for (Constraint c : constraints){
+					if(c.isValid(s, b, i)){
+						
+						lcvCount[index]++;
+					}
+				}
+			}
+			index++;
+		}
+		
+		List max = Arrays.asList(lcvCount);
+		int maxIndex = max.indexOf(Collections.max(max));
+		
+		return s.getItems().get(maxIndex);
 	}
 	
 }
