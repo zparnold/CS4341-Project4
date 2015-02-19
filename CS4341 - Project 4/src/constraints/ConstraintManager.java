@@ -173,7 +173,8 @@ public class ConstraintManager {
 
 	/**
 	 * 
-	 * @param s
+	 * @param s the state to check forward 
+	 * 	(only used for Binary classes)
 	 */
 	public void forwardCheck(State s) {
 		// If any of the next moves are a binary type
